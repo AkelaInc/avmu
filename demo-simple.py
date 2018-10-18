@@ -24,7 +24,7 @@ The structure is minimal:
 '''
 
 
-AVMU_IP_ADDRESS = "192.168.1.223"
+AVMU_IP_ADDRESS = "192.168.1.219"
 
 HOP_RATE        = "HOP_15K"
 START_F         = 250
