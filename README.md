@@ -3,6 +3,8 @@
 
 Python 3 interface to AKELA Inc's vector meaurement units.
 
+[Complete API Documentation here](https://akelainc.github.io/avmu/index.html)
+
 Quickstart:
 
     import avmu
