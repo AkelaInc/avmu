@@ -51,6 +51,10 @@ class AvmuInterface(object):
 
 		self.ffi, self.dll = dll_loader.load_ffi_interface()
 
+		if "Private API mode" in self.versionString():
+			from . import private_api
+			self.__class__ = private_api.PromOverrideAvmuInterface
+
 		self.log.debug("Constructing constant mapping tables.")
 		self.___construct_map_tables()
 
@@ -68,7 +72,8 @@ class AvmuInterface(object):
 			print("WARNING: Error when trying to delete task handle!")
 
 	def __repr__(self):
-		ret = "<AvmuInterface for radar {}:{} state {}, handle {}>".format(
+		ret = "<{} for radar {}:{} state {}, handle {}>".format(
+			self.__class__.__name__,
 			self.getIPAddress(),
 			self.getIPPort(),
 			self.getState(),
@@ -977,7 +982,18 @@ class AvmuInterface(object):
 			"serial_number"     : hardwareDetails.serial_number,
 
 			"band_boundaries"   : [hardwareDetails.band_boundaries[x]
-										for x in range(hardwareDetails.number_of_band_boundaries)]
+										for x in range(hardwareDetails.number_of_band_boundaries)],
+			"switch_board_type" : hardwareDetails.swbd_type,
+			"feature_flags"     : {
+
+				"has_encoders"           : hardwareDetails.hardware_features.has_encoders,
+				"has_serial_port"        : hardwareDetails.hardware_features.has_serial_port,
+				"has_attenuators"        : hardwareDetails.hardware_features.has_attenuators,
+				"has_multiple_receivers" : hardwareDetails.hardware_features.has_multiple_receivers,
+				"has_scan_trigger_in"    : hardwareDetails.hardware_features.has_scan_trigger_in,
+				"has_scan_trigger_out"   : hardwareDetails.hardware_features.has_scan_trigger_out,
+
+			}
 		}
 		return ret
 

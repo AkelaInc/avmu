@@ -27,8 +27,8 @@ def get_search_paths():
 	build_dir_dbg1 = os.path.abspath(os.path.join(loc, "../../../x64/Debug/"))
 	build_dir_dbg2 = os.path.abspath(os.path.join(loc, "../../../Out/x64/Debug/"))
 	build_dir_rls1 = os.path.abspath(os.path.join(loc, "../../../Out/x64/Release/"))
-	build_dir_rls2 = os.path.abspath(os.path.join(loc, "../../../Out/x64/ReleaseWProgram/"))
-	build_dir_rls3 = os.path.abspath(os.path.join(loc, "../../../../../Out/x64/ReleaseWProgram/"))
+	build_dir_rls2 = os.path.abspath(os.path.join(loc, "../../../Out/x64/ReleaseWPrivateApi/"))
+	build_dir_rls3 = os.path.abspath(os.path.join(loc, "../../../../../Out/x64/ReleaseWPrivateApi/"))
 	build_dir_rls4 = os.path.abspath(os.path.join(loc, "../../../../../Out/x64/Release/"))
 	locations.append(build_dir_dbg1)
 	locations.append(build_dir_dbg2)
@@ -65,6 +65,13 @@ def check_copy_to_local(fq_dll_path, dll_name):
 	print("DLL is not located in the library directory. Attempting to copy it there")
 	to_path = os.path.join(lib_dir, dll_name)
 
+
+	if os.path.exists(to_path):
+		with open(fq_dll_path, "rb") as f_a, open(to_path, "rb") as f_b:
+			if f_a.read() == f_b.read():
+				return to_path
+			else:
+				print("Dll in library directory differs from build directory!")
 	try:
 		shutil.copy(fq_dll_path, to_path)
 		print("Library copied into tree. Path: %s" % (to_path))

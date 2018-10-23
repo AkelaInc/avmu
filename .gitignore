@@ -89,3 +89,5 @@ venv
 __pycache__
 /source
 /avmu.egg-info
+/avmu/private_api.py
+/downloaded_*

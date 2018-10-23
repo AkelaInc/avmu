@@ -1,2 +1,4 @@
 include avmu/avmudll.dll
 include avmu/headers/*
+
+global-exclude avmu/private_api.py

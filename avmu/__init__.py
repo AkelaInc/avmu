@@ -1,7 +1,7 @@
 
 from .avmu_exceptions import *
 from .avmu_library    import *
-
+from .avmu_utils      import *
 
 ##
 #  \addtogroup Python-API

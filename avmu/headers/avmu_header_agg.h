@@ -227,6 +227,23 @@
 		/** Switchboard type of the connected hardware */
 		SwitchboardType swbd_type;
 
+		struct hardware_features_t
+		{
+			/** Does the connected AVMU have encoder inputs */
+			bool has_encoders;
+			/** Does the connected AVMU have a serial rx port */
+			bool has_serial_port;
+			/** Does the connected AVMU have a hardware attenuator */
+			bool has_attenuators;
+			/** Does the connected AVMU have multiple receivers */
+			bool has_multiple_receivers;
+			/** Does the connected AVMU have a scan-trigger input */
+			bool has_scan_trigger_in;
+			/** Does the connected AVMU have a scan-trigger output */
+			bool has_scan_trigger_out;
+
+		} hardware_features;
+
 	} HardwareDetails;
 
 	/**
@@ -402,7 +419,8 @@
 	/**
 	 * @brief Sets the port on which to communicate with the unit.
 	 *        The value of `port` MUST be > 1024, as 1024 is reserved
-	 *        for broadcast operations.
+	 *        for broadcast operations. Additionally, the maximum value
+	 *        for the port is 1279 (1024 + 256).
 	 *        Note that for multi-unit configurations, each unit must be
 	 *        assigned a unique port > 1024 (the AVMU units listen on all
 	 *        ports, but only respond to broadcast commands on port 1024).
