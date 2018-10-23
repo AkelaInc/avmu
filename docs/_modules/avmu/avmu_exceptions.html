@@ -1,0 +1,298 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>avmu.avmu_exceptions &#8212; Akela AVMU  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for avmu.avmu_exceptions</h1><div class="highlight"><pre>
+<span></span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">Each exception corresponds to the eponymous C error return code, prefixed with ``Avmu_Exception_``.</span>
+
+<span class="sd">Note that these exceptions are also available as ``avmu.Avmu_Exception_*``, as they&#39;re</span>
+<span class="sd">star-imported into the main avmu module.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<div class="viewcode-block" id="Avmu_Exception"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Base exception class that all library exceptions inherit from. This</span>
+<span class="sd">	can be used to easily catch all exceptions that are specifically</span>
+<span class="sd">	thrown by the ``avmu`` library.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Avmu_Exception_Bad_Atten"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Bad_Atten">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Bad_Atten</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating the specified attenuation value was not valid.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Bad_Cal"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Bad_Cal">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Bad_Cal</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating the current calibration is invalid. Only relevant for VNAs.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Bad_Handle"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Bad_Handle">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Bad_Handle</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating the current handle passed to a DLL function was not valid.</span>
+
+<span class="sd">	Generally indicates an internal error. If this occurs repeatedly, please contact support.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Bad_Hop"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Bad_Hop">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Bad_Hop</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating the specified hop-rate value was not valid.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Bad_Path"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Bad_Path">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Bad_Path</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating the specified path is not allowed, or was invalid.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Bad_Prom"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Bad_Prom">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Bad_Prom</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating that the AVMU PROM was not in a known format.</span>
+<span class="sd">	Please contact support if this is a reoccurring issue.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Bytes"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Bytes">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Bytes</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating the DLL has received an incorrect number of bytes from the AVMU.</span>
+<span class="sd">	Possibly indicative of a network issue.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Freq_Out_Of_Bounds"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Freq_Out_Of_Bounds">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Freq_Out_Of_Bounds</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating one of the specified frequency bounds was beyond the hardware&#39;s available range.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Interrupted"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Interrupted">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Interrupted</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating that the measurement was asynchronously interrupted from another thread.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_No_Response"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_No_Response">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_No_Response</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating the remote instrument failed to respond to commands within the current timeout period.</span>
+<span class="sd">	If this persists, check your network and try power cycling the AVMU.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Missing_Ip"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Missing_Ip">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Missing_Ip</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating you have not yet specified the IP of the remote device before connecting.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Missing_Port"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Missing_Port">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Missing_Port</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating you have not yet specified the port for the remote device before connecting.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Missing_Hop"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Missing_Hop">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Missing_Hop</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating you have not yet specified the hop-rate for the remote device before connecting.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Missing_Atten"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Missing_Atten">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Missing_Atten</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	The switchboard config requires an attenuation value to be specified, and it has not been.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Missing_Freqs"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Missing_Freqs">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Missing_Freqs</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating you have not yet specified the frequency endpoints for the remote device before connecting.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Prog_Overflow"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Prog_Overflow">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Prog_Overflow</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating the generated program to run on the remote device was larger than it can handle.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Socket"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Socket">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Socket</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating an unknown socket error occured.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Too_Many_Points"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Too_Many_Points">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Too_Many_Points</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating you are trying to take more data points than the hardware is capable of.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Wrong_State"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Wrong_State">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Wrong_State</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating the hardware is not in the correct state for the function you are trying to call.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Empty_Prom"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Empty_Prom">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Empty_Prom</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating the remote device&#39;s PROM appears to be empty.</span>
+<span class="sd">	Power cycle the AVMU, and if the problem persists, contact Akela.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Path_Already_Measured"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Path_Already_Measured">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Path_Already_Measured</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating you are adding a path to measure that you had already added.</span>
+
+<span class="sd">	These restrictions have been relaxed in recent releases.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_No_Measured_Paths"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_No_Measured_Paths">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_No_Measured_Paths</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating there are no paths to measure, and the hardware has nothing to do.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Wrong_Program_Type"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Wrong_Program_Type">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Wrong_Program_Type</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating you are in sync mode and are trying to call an async startup function.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Unknown_Feature"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Unknown_Feature">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Unknown_Feature</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error code indicating the AVMU&#39;s prom indicates it has a hardware feature that this</span>
+<span class="sd">	version of the DLL doesn&#39;t know about. Either indicates you need to update, or the prom is corrupted.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Feature_Not_Present"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Feature_Not_Present">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Feature_Not_Present</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	You are trying to configure a hardware feature not present in the connected AVMU.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_No_Attenuator_Present"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_No_Attenuator_Present">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_No_Attenuator_Present</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	You are trying to specify an attenuation value on hardware without an attenuator.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Bad_IP_Port"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Bad_IP_Port">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Bad_IP_Port</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	The UDP port you specified is not valid. You must use a port &gt;= 1024 and &lt; 65535</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Task_Array_Invalid"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Task_Array_Invalid">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Task_Array_Invalid</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	The batch-task array parameter appears to not be valid.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Path_Has_No_Data"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Path_Has_No_Data">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Path_Has_No_Data</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	No data was acquired for the specified path. Either you didn&#39;t add the path,</span>
+<span class="sd">	didn&#39;t call measure(), or something else is wrong.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Err_Index_Out_Of_Bounds"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Err_Index_Out_Of_Bounds">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Err_Index_Out_Of_Bounds</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	 The sweep index/exclusion band you are trying to extract is outside the bounds of the array.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Err_Invalid_Parameter"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Err_Invalid_Parameter">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Err_Invalid_Parameter</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	 One of the specified parameters is not valid.</span>
+<span class="sd">	 If you are specifying sweep frequency, check your frequency bands.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="Avmu_Exception_Err_Prom_Invalid_Feature_Configuration"><a class="viewcode-back" href="../../index.html#avmu.avmu_exceptions.Avmu_Exception_Err_Prom_Invalid_Feature_Configuration">[docs]</a><span class="k">class</span> <span class="nc">Avmu_Exception_Err_Prom_Invalid_Feature_Configuration</span><span class="p">(</span><span class="n">Avmu_Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	 The AVMU&#39;s prom contains feature flags that are incompatible with each other.</span>
+<span class="sd">	  Please contact support.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+
+
+
+<span class="c1">## @}</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Akela AVMU</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Akela Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

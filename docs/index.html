@@ -1,0 +1,1466 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Welcome to Akela AVMU’s documentation! &#8212; Akela AVMU  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-akela-avmu-s-documentation">
+<h1>Welcome to Akela AVMU’s documentation!<a class="headerlink" href="#welcome-to-akela-avmu-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-avmu"></span><dl class="class">
+<dt id="avmu.AvmuInterface">
+<em class="property">class </em><code class="descclassname">avmu.</code><code class="descname">AvmuInterface</code><span class="sig-paren">(</span><em>share_from_interface=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the base AVMU interface class.</p>
+<p>For multi-AVMU operation, pass the first created interface
+to any additional interface class instances. This allows all
+the interface instances to share the same underlying communication
+objects, which is needed for synchronized operation.</p>
+<p>Note: If you don’t share the communcation object, calls
+such as broadcastBeginCommand() will not operate properly.</p>
+<p>Unfortunately, there is no coherent way to validate this
+in the library code, so it’s left up to the user.</p>
+<p>Note: All library functions can theoretically raise  <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Bad_Handle" title="avmu.avmu_exceptions.Avmu_Exception_Bad_Handle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Bad_Handle</span></code></a>
+if the internal task handle has been corrupted. As such, this particular exception will not be explicitly
+enumerated for every possible call.</p>
+<dl class="method">
+<dt id="avmu.AvmuInterface.addPathToMeasure">
+<code class="descname">addPathToMeasure</code><span class="sig-paren">(</span><em>tx_path</em>, <em>rx_path</em>, <em>who_is_transmitting=None</em>, <em>port_is_transmitting=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.addPathToMeasure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.addPathToMeasure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a path to measure.</p>
+<p>Adds a path to the list of active paths that will be
+measured when data is actually acquired.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tx_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Transmitting port of the path to add. Note that
+this can very well be TX_NONE, if your application is
+using multiple AVMUs, and one of the other AVMUs is
+the one actively transmitting.</li>
+<li><strong>rx_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – RX Path for the combo. This can be RX_NONE if there
+is no need for the associated rx data. Note that RX_NONE
+will still return data (as the transmitter will still
+need to do the associated frequency stepping), but the
+return content will be only cross-board leakage within
+the AVMU.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Nothing</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Bad_Path" title="avmu.avmu_exceptions.Avmu_Exception_Bad_Path"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Bad_Path</span></code></a> – if a path value specified is invalid.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.clearMeasuredPaths">
+<code class="descname">clearMeasuredPaths</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.clearMeasuredPaths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.clearMeasuredPaths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear list of paths being measured.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Nothing</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.getFrequencies">
+<code class="descname">getFrequencies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.getFrequencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.getFrequencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list containing the actual frequencies the hardware will sample for
+the configured sweep in task <cite>t</cite>. Units are MHz.</p>
+<p>The actual frequency points can differ from the requested frequency points
+because the hardware has fixed precision, and cannot achieve every arbitrary
+frequency value within its tunable bands. The values in this list are the
+requested frequency points after snapping them to the closest achievable
+frequency.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of floating point frequencies, in MHz</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.setFrequencies">
+<code class="descname">setFrequencies</code><span class="sig-paren">(</span><em>freqs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.setFrequencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.setFrequencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the frequencies to measure during each sweep. Units are MHz.</p>
+<p>Note that the AVMU frequency generation
+hardware has fixed precision and so the generated frequency may not be exactly
+equal to the requested frequency. This function silently converts all requested
+frequencies to frequencies that can be exactly generated by the hardware.
+This has important implications for Doppler noise when doing a linear sweep.
+AKELA recommends using the function <a class="reference internal" href="#avmu.AvmuInterface.utilFixLinearSweepLimits" title="avmu.AvmuInterface.utilFixLinearSweepLimits"><code class="xref py py-func docutils literal notranslate"><span class="pre">utilFixLinearSweepLimits()</span></code></a> to ensure
+every frequency is exactly generateable and that the frequencies are equally
+spaced. Use the <a class="reference internal" href="#avmu.AvmuInterface.getFrequencies" title="avmu.AvmuInterface.getFrequencies"><code class="xref py py-func docutils literal notranslate"><span class="pre">getFrequencies()</span></code></a> function to get the actual frequencies being
+generated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>freqs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – array of frequencies to sample, in MHz</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Nothing</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a> if the Task is not in the TASK_STOPPED state</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Too_Many_Points" title="avmu.avmu_exceptions.Avmu_Exception_Too_Many_Points"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Too_Many_Points</span></code></a> if N is larger than                                                      the maximum allowed (see HardwareDetails)</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Freq_Out_Of_Bounds" title="avmu.avmu_exceptions.Avmu_Exception_Freq_Out_Of_Bounds"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Freq_Out_Of_Bounds</span></code></a> if a frequency is                                                     beyond the allowed min/max. (You can get the min and max from                                                   the HardwareDetails struct returned by <a class="reference internal" href="#avmu.AvmuInterface.getHardwareDetails" title="avmu.AvmuInterface.getHardwareDetails"><code class="xref py py-func docutils literal notranslate"><span class="pre">getHardwareDetails()</span></code></a>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.getHopRate">
+<code class="descname">getHopRate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.getHopRate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.getHopRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the frequency hopping rate associated with this Task object.
+If no rate has yet been set, this function returns <code class="docutils literal notranslate"><span class="pre">HOP_UNDEFINED</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Current hop rate as a string.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.setHopRate">
+<code class="descname">setHopRate</code><span class="sig-paren">(</span><em>hop_str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.setHopRate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.setHopRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the frequency hopping rate. See the values defined in the “HopRate” type above.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>hop_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The new hop rate.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Nothing</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Bad_Hop" title="avmu.avmu_exceptions.Avmu_Exception_Bad_Hop"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Bad_Hop</span></code></a> if there was something wrong with the hop rate parameter</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a> if the Task is not in the <code class="docutils literal notranslate"><span class="pre">TASK_UNINITIALIZED</span></code> or <code class="docutils literal notranslate"><span class="pre">TASK_STOPPED</span></code> state</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.getIPAddress">
+<code class="descname">getIPAddress</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.getIPAddress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.getIPAddress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current AVMU IP address for the Task object.
+When no IP has yet been set, this will return a NULL
+char*.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">string of the current remote IP. If the IP is unset, returns <code class="docutils literal notranslate"><span class="pre">None</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.setIPAddress">
+<code class="descname">setIPAddress</code><span class="sig-paren">(</span><em>ip_address</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.setIPAddress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.setIPAddress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the IPv4 address of the unit to communicate with.                  The ipv4 parameter is copied into the Task’s memory.            On success the Task’s state will be <code class="docutils literal notranslate"><span class="pre">TASK_UNINITIALIZED</span></code>.
+:param ip_address:
+:type ip_address: str</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State`if</span> <span class="pre">the</span> <span class="pre">Task</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">``TASK_UNINITIALIZED`</span></code> or <code class="docutils literal notranslate"><span class="pre">TASK_STOPPED</span></code> state</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.getIPPort">
+<code class="descname">getIPPort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.getIPPort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.getIPPort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current port for IP communications. When uninitialized, this will default to 0.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.setIPPort">
+<code class="descname">setIPPort</code><span class="sig-paren">(</span><em>port</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.setIPPort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.setIPPort" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>Sets the port on which to communicate with the unit.</div></blockquote>
+<p>The value of <cite>port</cite> MUST be &gt; 1024, as 1024 is reserved
+for broadcast operations.</p>
+<p>Note that for multi-unit configurations, each unit must be
+assigned a unique port &gt; 1024 (the AVMU units listen on all
+ports, but only respond to broadcast commands on port 1024).
+On success, the Task’s state will be <code class="docutils literal notranslate"><span class="pre">TASK_UNINITIALIZED</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State`if</span> <span class="pre">the</span> <span class="pre">Task</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">``TASK_UNINITIALIZED`</span></code> or <code class="docutils literal notranslate"><span class="pre">TASK_STOPPED</span></code> state</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.getMeasurementType">
+<code class="descname">getMeasurementType</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.getMeasurementType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.getMeasurementType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current measurement ProgramType type.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">(str) Current measurement type.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.setMeasurementType">
+<code class="descname">setMeasurementType</code><span class="sig-paren">(</span><em>measure_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.setMeasurementType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.setMeasurementType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the measurement type (synchronous or asynchronous). Note that the AVMU
+defaults to synchonous (PROG_SYNC).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>measure_type</strong> (str) One of the ProgramType types (<code class="docutils literal notranslate"><span class="pre">PROG_ASYNC</span></code> or <code class="docutils literal notranslate"><span class="pre">PROG_SYNC</span></code>) – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.setGainSetting">
+<code class="descname">setGainSetting</code><span class="sig-paren">(</span><em>gain_setting</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.setGainSetting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.setGainSetting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Control IF gain.</p>
+<p>The AVMU has the facility for configurable  gain within the IF stage
+of the RF pipeline.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>gain_setting</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>) </em><em>A value in the IfGain Enum</em><em> (</em><em>e.g. &quot;AVMU_GAIN_*&quot;</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a> if the task is either UNINITIALIZED or STOPPED.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.getGainSetting">
+<code class="descname">getGainSetting</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.getGainSetting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.getGainSetting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current IF gain setting.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">(str) Current IF gain settings.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.setReceiver12dBPad">
+<code class="descname">setReceiver12dBPad</code><span class="sig-paren">(</span><em>insert_pad</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.setReceiver12dBPad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.setReceiver12dBPad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Control whether an optional 12dB pad is inserted in the internal RF chain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>insert_pad</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – Whether the pad is inserted.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.getReceiver12dBPad">
+<code class="descname">getReceiver12dBPad</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.getReceiver12dBPad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.getReceiver12dBPad" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO: Untested!</p>
+<p>Get whether the optional 12DB pad is inserted into the RF chain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">(bool) True if pad is enabled.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.getNumberOfFrequencies">
+<code class="descname">getNumberOfFrequencies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.getNumberOfFrequencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.getNumberOfFrequencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of frequency points for the sweep configured for
+the Task. If no frequencies have been set, this function returns 0.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">(int) Number of frequency points in the current sweep.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.utilGenerateLinearSweep">
+<code class="descname">utilGenerateLinearSweep</code><span class="sig-paren">(</span><em>startF_mhz</em>, <em>stopF_mhz</em>, <em>points</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.utilGenerateLinearSweep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.utilGenerateLinearSweep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a linear sweep with the requested parameters. Note that the start and end
+frequency will be adjusted as documented in utilFixLinearSweepLimits() so that all
+frequency points fall on exactly generateable values. This function internally calls
+setFrequencies() with the resulting array. The caller can retrieve the frequency list
+with the getFrequencies() function. Since it changes the frequencies this function
+is only available in the TASK_STOPPED state.</p>
+<p>If <cite>startFreq</cite> == <cite>endFreq</cite>, the hardware will effectively be placed in zero-span
+mode, as it will repeatedly sample the same frequency for the duration of the
+sweep. This is a valid operating mode.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>startF_mhz</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – </li>
+<li><strong>stopF_mhz</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – </li>
+<li><strong>N</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a> if the Task is not in the TASK_STOPPED state</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Too_Many_Points" title="avmu.avmu_exceptions.Avmu_Exception_Too_Many_Points"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Too_Many_Points</span></code></a> if N is larger than                                                      the maximum allowed (see HardwareDetails)</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Freq_Out_Of_Bounds" title="avmu.avmu_exceptions.Avmu_Exception_Freq_Out_Of_Bounds"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Freq_Out_Of_Bounds</span></code></a> if a frequency is                                                     beyond the allowed min/max. (You can get the min and max from                                                   the HardwareDetails struct returned by <a class="reference internal" href="#avmu.AvmuInterface.getHardwareDetails" title="avmu.AvmuInterface.getHardwareDetails"><code class="xref py py-func docutils literal notranslate"><span class="pre">getHardwareDetails()</span></code></a>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.getTimeout">
+<code class="descname">getTimeout</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.getTimeout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.getTimeout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current UDP socket transport timeout.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">(int) socket timeout, in milliseconds.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.setTimeout">
+<code class="descname">setTimeout</code><span class="sig-paren">(</span><em>timeout_ms</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.setTimeout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.setTimeout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the default time to wait, in milliseconds, for a unit to reply to a command
+before giving up and returning an ERR_NO_RESPONSE condition. For the measurement
+functions, this is the amount of time to wait beyond the expected sweep time.
+When a Task is created, the timeout value defaults to 1000.</p>
+<p>A timeout value of 0 results in non-blocking call, where the call will return
+immediately if there is no data in the OS receive buffer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>timeout_ms</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Nothing</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.isSerialPortPresent">
+<code class="descname">isSerialPortPresent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.isSerialPortPresent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.isSerialPortPresent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get whether the remote hardware has a serial port peripheral.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the hardware supports a serial port, False if not.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.setSerialPortFeature">
+<code class="descname">setSerialPortFeature</code><span class="sig-paren">(</span><em>enable</em>, <em>buffer_size=128</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.setSerialPortFeature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.setSerialPortFeature" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the remote hardware has a serial port, this call configures it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>enable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – </li>
+<li><strong>buffer_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Feature_Not_Present" title="avmu.avmu_exceptions.Avmu_Exception_Feature_Not_Present"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Feature_Not_Present</span></code></a> – if the remote AVMU                             does not have a serial port.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.isShaftEncoderPresent">
+<code class="descname">isShaftEncoderPresent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.isShaftEncoderPresent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.isShaftEncoderPresent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get whether the AVMU has support for external shaft encoder inputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">(bool) whether the connected AVMU has support for encoders</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.setShaftEncoderFeature">
+<code class="descname">setShaftEncoderFeature</code><span class="sig-paren">(</span><em>enable</em>, <em>resetOnStart=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.setShaftEncoderFeature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.setShaftEncoderFeature" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the AVMU supports encoders, this allows you to enable the encoders,
+and optionally reset the cumulative encoder counter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>enable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – </li>
+<li><strong>resetOnStart</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Feature_Not_Present" title="avmu.avmu_exceptions.Avmu_Exception_Feature_Not_Present"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Feature_Not_Present</span></code></a> – if the remote AVMU                             does not have encoder support.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.configureTddSettings">
+<code class="descname">configureTddSettings</code><span class="sig-paren">(</span><em>tddEnabled=False</em>, <em>nullingEnabled=False</em>, <em>powerAmpState=False</em>, <em>slave=False</em>, <em>attenuatorEnabled=False</em>, <em>lnaEnabled=False</em>, <em>attenuatorValue=0</em>, <em>tx=0</em>, <em>tx_to_rx1=0</em>, <em>rx1=0</em>, <em>rx1_to_rx2=0</em>, <em>rx2=0</em>, <em>rx2_to_tx=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.configureTddSettings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.configureTddSettings" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.getState">
+<code class="descname">getState</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.getState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.getState" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>Get the current state of the Task.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">(str) One of ‘TASK_RUNNING’, ‘TASK_STARTED’, ‘TASK_STOPPED’ or ‘TASK_UNINITIALIZED’.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.getHardwareDetails">
+<code class="descname">getHardwareDetails</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.getHardwareDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.getHardwareDetails" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the hardware details for the unit associated with this AvmuInterface instance.</p>
+<p>TODO: VALIDATE THIS!</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>None</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A dictionary of the HardwareDetails members -&gt; value mappings.                          If the Task has not yet been initialized, the returned dict has all values set to 0.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.utilPingUnit">
+<code class="descname">utilPingUnit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.utilPingUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.utilPingUnit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends an “are you there” message to the unit.</p>
+<p>Note that this function should not be
+called while a frequency sweep is ongoing, because it causes that sweep to prematurely
+halt and respond to this message instead. This is only an issue in multithreaded code or
+when in async mode, as the sync data acquisition functions are blocking. This function
+waits for a reply for the length of time specified by getTimeout() before giving up.</p>
+<p>Note that this can be called from any state, provided an IP and port are present.</p>
+<p>Raises an exception if the unit did not respond, returns nothing otherwise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Socket" title="avmu.avmu_exceptions.Avmu_Exception_Socket"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Socket</span></code></a> if there was a problem sending a message</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_No_Response" title="avmu.avmu_exceptions.Avmu_Exception_No_Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_No_Response</span></code></a> if the unit did not respond to commands</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Missing_Ip" title="avmu.avmu_exceptions.Avmu_Exception_Missing_Ip"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Missing_Ip</span></code></a> if no IP address has been set</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Missing_Port" title="avmu.avmu_exceptions.Avmu_Exception_Missing_Port"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Missing_Port</span></code></a> if no port has been set</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.versionString">
+<code class="descname">versionString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.versionString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.versionString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a string describing the version of the DLL and its components.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">String describing the AVMU DLL components and version numbers.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.utilFixLinearSweepLimits">
+<code class="descname">utilFixLinearSweepLimits</code><span class="sig-paren">(</span><em>startF</em>, <em>endF</em>, <em>npts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.utilFixLinearSweepLimits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.utilFixLinearSweepLimits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adjusts the start and end of a requested linear sweep with N points such that all
+frequencies in the sweep will land on exactly generateable values, and the inter-point
+spacing is constant across the entire scan. Unequal spacing will cause Doppler noise in
+the data.</p>
+<p>This may move the start and end frequencies of the scan slightly (&lt;1 MHz).</p>
+<p>If the input frequencies are equal, or N is 1, the frequencies are each
+simply adjusted to exactly generateable values.</p>
+<p>TODO: VALIDATE THIS!</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>startF</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – </li>
+<li><strong>endF</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – </li>
+<li><strong>npts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Adjusted start and stop frequencies as a 2-tuple</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a> if the Task is not in the TASK_STOPPED state</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Too_Many_Points" title="avmu.avmu_exceptions.Avmu_Exception_Too_Many_Points"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Too_Many_Points</span></code></a> if N is larger than                                                      the maximum allowed (see HardwareDetails)</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Freq_Out_Of_Bounds" title="avmu.avmu_exceptions.Avmu_Exception_Freq_Out_Of_Bounds"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Freq_Out_Of_Bounds</span></code></a> if a frequency is                                                     beyond the allowed min/max. (You can get the min and max from                                                   the HardwareDetails struct returned by <a class="reference internal" href="#avmu.AvmuInterface.getHardwareDetails" title="avmu.AvmuInterface.getHardwareDetails"><code class="xref py py-func docutils literal notranslate"><span class="pre">getHardwareDetails()</span></code></a>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.utilNearestLegalFreq">
+<code class="descname">utilNearestLegalFreq</code><span class="sig-paren">(</span><em>freq</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.utilNearestLegalFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.utilNearestLegalFreq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adjusts a requested frequency, in MHz, to the nearest able to be generated by the
+hardware. This is not available in the TASK_UNINITIALIZED state, as it requires knowledge
+of the hardware not read from the AVMU until initialized.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>target_freq</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Adjusted <cite>target_freq</cite> Frequency value as a float<blockquote>
+<div><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a> if the Task is not in the TASK_STOPPED state
+<a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Freq_Out_Of_Bounds" title="avmu.avmu_exceptions.Avmu_Exception_Freq_Out_Of_Bounds"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Freq_Out_Of_Bounds</span></code></a> if a frequency is                                                     beyond the allowed min/max. (You can get the min and max from                                                   the HardwareDetails struct returned by <a class="reference internal" href="#avmu.AvmuInterface.getHardwareDetails" title="avmu.AvmuInterface.getHardwareDetails"><code class="xref py py-func docutils literal notranslate"><span class="pre">getHardwareDetails()</span></code></a>)</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.initialize">
+<code class="descname">initialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempts to talk to the unit specified by the Task’s IP address and port, and download
+its details. If it succeeds the Task enters the TASK_STOPPED state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Socket" title="avmu.avmu_exceptions.Avmu_Exception_Socket"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Socket</span></code></a> if there was a problem sending a message</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_No_Response" title="avmu.avmu_exceptions.Avmu_Exception_No_Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_No_Response</span></code></a> if the unit did not respond to commands</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Missing_Ip" title="avmu.avmu_exceptions.Avmu_Exception_Missing_Ip"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Missing_Ip</span></code></a> if no IP address has been set</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Missing_Port" title="avmu.avmu_exceptions.Avmu_Exception_Missing_Port"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Missing_Port</span></code></a> if no port has been set</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a>  if the Task is not in the TASK_UNINITIALIZED state</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Bad_Prom" title="avmu.avmu_exceptions.Avmu_Exception_Bad_Prom"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Bad_Prom</span></code></a>  if the unit returned hardware details that this DLL doesn’t understand</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.beginAsync">
+<code class="descname">beginAsync</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.beginAsync"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.beginAsync" title="Permalink to this definition">¶</a></dt>
+<dd><p>Begin async data collection.
+This call emits the trigger message that will cause the remote hardware to
+immediately begin acquiring frequency data continuously.</p>
+<p>Note that once beginAsync() has been called, you MUST then call measure()
+periodically so that the UDP recieve buffer will not overflow.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.broadcastBeginCommand">
+<code class="descname">broadcastBeginCommand</code><span class="sig-paren">(</span><em>handles=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.broadcastBeginCommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.broadcastBeginCommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Broadcast a “begin” command to all avmus on the local network. This will start the
+sweep of every avmu on the network at the current position of its internal PC, and
+therefore depends on the avmus having been preconfigured to the proper start addresses
+using beginAsync().</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>handles</strong> (<em>list of AvmuInterface</em>) – </p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a> if any of the the tasks are not in the TASK_RUNNING state.</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Task_Array_Invalid" title="avmu.avmu_exceptions.Avmu_Exception_Task_Array_Invalid"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Task_Array_Invalid</span></code></a> if the passed list is empty (handle_count == 0)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.haltAsync">
+<code class="descname">haltAsync</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.haltAsync"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.haltAsync" title="Permalink to this definition">¶</a></dt>
+<dd><p>This causes an immediate halt of the async sweep acquisition in the
+remote hardware.</p>
+<p>Any pending data in the UDP recieve buffer will be flushed, and the
+hardware will be returned to the “started” state.</p>
+<p>To resume async data collection after calling haltAsync(),
+simply call beginAsync().</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.interruptMeasurement">
+<code class="descname">interruptMeasurement</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.interruptMeasurement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.interruptMeasurement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interrupts one of the measurement functions while it is waiting for data.</p>
+<p>Since the measurement functions are blocking in SYNC mode, this function
+must be called from a different thread. This function returns immediately,
+however the measurement function may continue to block for a short additional
+amount of time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a> if the Task is not in the TASK_STARTED state</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempts to program the AVMU using the settings stored in the Task object. If it
+succeeds the Task enters the TASK_STARTED state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a>  if the Task is not in the TASK_STOPPED state</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Socket" title="avmu.avmu_exceptions.Avmu_Exception_Socket"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Socket</span></code></a> if there was a problem sending a message</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_No_Response" title="avmu.avmu_exceptions.Avmu_Exception_No_Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_No_Response</span></code></a> if the unit did not respond to commands</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Bad_Prom" title="avmu.avmu_exceptions.Avmu_Exception_Bad_Prom"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Bad_Prom</span></code></a>  if the unit returned hardware details that this DLL doesn’t understand</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Bad_Hop" title="avmu.avmu_exceptions.Avmu_Exception_Bad_Hop"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Bad_Hop</span></code></a> if the hop rate has not yet been specified</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Missing_Freqs" title="avmu.avmu_exceptions.Avmu_Exception_Missing_Freqs"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Missing_Freqs</span></code></a> if the frequencies have not yet been specified</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Prog_Overflow" title="avmu.avmu_exceptions.Avmu_Exception_Prog_Overflow"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Prog_Overflow</span></code></a> if the size of the program is too large for the hardware’s memory                           (this can happen if there are too many frequencies)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.stop" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>Puts the Task object into the TASK_STOPPED state.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a>  if the Task is not in the TASK_STARTED state</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.measure">
+<code class="descname">measure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.measure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.measure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take a measurement.</p>
+<p>In PROG_SYNC mode, this triggers a measurement, and blocks until its response has
+been fully received and decoded.</p>
+<p>This function does various things depending on the sweep trigger type and the program type.
+Sync mode, internal trigger: run avmu program, block until data is received or timeout
+Sync mode, external trigger: block until data is received or timeout
+Async mode, internal trigger: block until 1 program’s worth of data is received or timeout
+Async mode, external trigger: block until 1 program’s worth of data is received or timeout</p>
+<p>Note that beginAsync() must be called prior to measure() in async mode.
+The pattern is beginAsync(), measure(), measure(), measure(), …, haltAsync()</p>
+<p>If the AvmuTask is in async mode (setMeasurementType called with PROG_ASYNC)
+this simply serves to consume any UDP messages generated by the hardware. Note that
+since the hardware asynchronously emits data continuously, you therefore
+<em>must</em> call this periodically, or you risk overrunning the socket receive buffer.</p>
+<p>Typically, overrunning the buffer will result in a <code class="docutils literal notranslate"><span class="pre">Avmu_Exception_Bytes</span></code> return code, but
+it’s theoretically possible to have an entire sweep be dropped (either if it
+fits in a single packet, or if all the packets for the sweep get dropped).</p>
+<p>In this case, the only indicator of data loss will be a non-monotonic sweep
+number in the returned data.</p>
+<p>In general, it’s probably ideal to just continualy call this.</p>
+<p>In both cases, measure() places the acquired data in the RX queue, ready
+to be extracted by calling extractSweepData().</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a> if the AvmuInterface is in PROG_SYNC mode, and the AvmuInterface                                       state is not TASK_STARTED.</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a> if the AvmuInterface is in PROG_ASYNC mode, and the AvmuInterface                                      state is not TASK_RUNNING.</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Bytes" title="avmu.avmu_exceptions.Avmu_Exception_Bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Bytes</span></code></a> if the received data is corrupted in some manner, or incomplete.</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_No_Measured_Paths" title="avmu.avmu_exceptions.Avmu_Exception_No_Measured_Paths"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_No_Measured_Paths</span></code></a> if there are no paths added to measure.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Rare <code class="docutils literal notranslate"><span class="pre">Avmu_Exception_Bytes</span></code>, particularly when not on a dedicated subnet are
+not entirely unknown, but they shouldn’t happen frequently.</p>
+<p>If you encounter large numbers of <code class="docutils literal notranslate"><span class="pre">Avmu_Exception_Bytes</span></code> returns, there can be a number of
+causes. TCP Checksum offloading has been known to cause this, as could
+not calling measure() frequently enough. Lastly, check the intervening network
+hardware. You might have a failing switch/hub.</p>
+<p>Note that the AVMU hardware is particularly intolerant of network hubs,
+as its UDP transport does not support data retransmits. Any collisions
+will result in a corrupted sweep (but really, it’s 2018+, why are you
+running a network hub?).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.getnumberOfEnabledReceivers">
+<code class="descname">getnumberOfEnabledReceivers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.getnumberOfEnabledReceivers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.getnumberOfEnabledReceivers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of receivers in the AVMU.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.getEnabledReceivers">
+<code class="descname">getEnabledReceivers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.getEnabledReceivers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.getEnabledReceivers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list describing which of the AVMU’s receivers will return data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.setEnabledReceivers">
+<code class="descname">setEnabledReceivers</code><span class="sig-paren">(</span><em>enable_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.setEnabledReceivers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.setEnabledReceivers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure which of the receivers in the AVMU will return data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.extractSweepData">
+<code class="descname">extractSweepData</code><span class="sig-paren">(</span><em>tx_path</em>, <em>rx_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.extractSweepData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.extractSweepData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the sweep data for a given path described by a TX port and RX port.</p>
+<p>Note that this interface has the limitation that it does not support multiple measurements
+of the same path within the overall AVMU acqusision frame.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tx_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – TX port of the path to extract.</li>
+<li><strong>rx_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – RX port of the path to extract.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><ul class="simple">
+<li><dl class="first docutils">
+<dt>A 2-tuple of containing (data, metadata)</dt>
+<dd><dl class="first last docutils">
+<dt>data is a numpy complex array with the dimensions of 1 x <code class="docutils literal notranslate"><span class="pre">getNumberOfFrequencies()</span></code>,</dt>
+<dd>where each value bin corresponds to the associated frequency bin in <code class="docutils literal notranslate"><span class="pre">getFrequencies()</span></code>.</dd>
+<dt>metadata is a dict containing the sweep metadata associated with the sweep <code class="docutils literal notranslate"><span class="pre">data</span></code>.</dt>
+<dd><dl class="first last docutils">
+<dt>It contains the following key-&gt; value pairs:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal notranslate"><span class="pre">tx_port</span></code> - Transmitting port, as a integer.</li>
+<li><code class="docutils literal notranslate"><span class="pre">tx_port_s</span></code> - Transmitting port, as a string compatible with <code class="docutils literal notranslate"><span class="pre">addPathToMeasure()</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">rx_port</span></code> - Receiving port, as a integer.</li>
+<li><code class="docutils literal notranslate"><span class="pre">rx_port_s</span></code> - Receiving port, as a string compatible with <code class="docutils literal notranslate"><span class="pre">addPathToMeasure()</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">timestamp_ticks</span></code>   Currently unused. Read as zero.</li>
+<li><code class="docutils literal notranslate"><span class="pre">timestamp_seconds</span></code> Currently unused. Read as zero.</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">sweep_number</span></code>      Monotonically increasing counter of the number of sweeps (note:</dt>
+<dd>sweeps, not frames)</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">shaft_encoder_left</span></code>  Shaft encoder accumulator for the left-hand shaft encoder.</dt>
+<dd>If not enabled, will return 0.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">shaft_encoder_right</span></code> Shaft encoder accumulator for the right-hand shaft encoder.</dt>
+<dd>If not enabled, will return 0.</dd>
+</dl>
+</li>
+<li><code class="docutils literal notranslate"><span class="pre">serial_data_age</span></code> Age of the serial port data. If serial is not enabled, will return 0.</li>
+<li><code class="docutils literal notranslate"><span class="pre">serial_data_bytes</span></code> Serial data itself, as a bytes array. If not enabled, will be an empty bytes object.</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+</ul>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Bad_Path" title="avmu.avmu_exceptions.Avmu_Exception_Bad_Path"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Bad_Path</span></code></a> – if a path value specified is invalid.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.extractAllPaths">
+<code class="descname">extractAllPaths</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.extractAllPaths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.extractAllPaths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a set of measured paths that are unique, extract every path and return them
+as a list.</p>
+<p>This call presumes the user has called <code class="docutils literal notranslate"><span class="pre">measure()</span></code> prior to it’s invocation.
+If not, it will raise <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Path_Has_No_Data" title="avmu.avmu_exceptions.Avmu_Exception_Path_Has_No_Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Path_Has_No_Data</span></code></a>:   if you didn’t call <code class="docutils literal notranslate"><span class="pre">measure()</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of 2-tuples <code class="docutils literal notranslate"><span class="pre">(path_info,</span> <span class="pre">data)</span></code>.<p><code class="docutils literal notranslate"><span class="pre">path_info</span></code> is a dict containing the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">who_is_transmitting</span></code>  Which unit is doing the transmitting. This is
+only relevant in a multi-AVMU context. Single-AVMU setups can ignore it.</li>
+<li><code class="docutils literal notranslate"><span class="pre">port_is_transmitting</span></code>   Which port on the transmitting unit is active. This is
+only relevant in a multi-AVMU context. Single-AVMU setups can ignore it.</li>
+<li><code class="docutils literal notranslate"><span class="pre">tx_path</span></code>              Which port on the current AVMU is transmitting. For multi AVMU
+configurations, when the current AVMU is not transmitting, this will be TX_NONE.</li>
+<li><code class="docutils literal notranslate"><span class="pre">rx_path</span></code>              Which port on the current AVMU is receiving.</li>
+<li><code class="docutils literal notranslate"><span class="pre">receiver_channel</span></code>     Which receiver is the dataset for. At the moment, this
+is ALWAYS 0, as no multi-receiver AVMUs are available.</li>
+</ul>
+<p>In the general single-unit case, you can ignore all the keys other then <code class="docutils literal notranslate"><span class="pre">tx_path</span></code> and <code class="docutils literal notranslate"><span class="pre">rx_path</span></code>.</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">data</span></code> is a dict containing two keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code> The actual sweep’s data. This is directly the <code class="docutils literal notranslate"><span class="pre">data</span></code> return component from
+the <code class="docutils literal notranslate"><span class="pre">extractSweepData()</span></code> call.</li>
+<li><code class="docutils literal notranslate"><span class="pre">meta</span></code> The sweep’s metadata. This is directly the <code class="docutils literal notranslate"><span class="pre">metadata</span></code> return component from
+the <code class="docutils literal notranslate"><span class="pre">extractSweepData()</span></code> call.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Path_Has_No_Data" title="avmu.avmu_exceptions.Avmu_Exception_Path_Has_No_Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Path_Has_No_Data</span></code></a> – if you didn’t call <code class="docutils literal notranslate"><span class="pre">measure()</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.setSyncPulseMode">
+<code class="descname">setSyncPulseMode</code><span class="sig-paren">(</span><em>sync_mode</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.setSyncPulseMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.setSyncPulseMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure the inter-AVMU synchronization pulse mode for the specified AVMU.</p>
+<p>The SyncPulseMode is used to allow coordinated acquisition between
+multiple AVMUs. In coordinated operation, the master unit is set to
+SYNC_GENERATE, and any slave units are set to SYNC_RECEIVE. This
+causes the master to emit sweep start outputs, which are consumed
+by the slave units.</p>
+<p>Note that this requires specialized hardware support, and dedicated
+syncronization wiring.</p>
+<p>Additionally, to properly synchronize, all units must receive their
+start command within 1 ms of each other, which is accomplished via
+the broadcastBeginCommand() call. This also requires the
+shared-communication-infrasturcture provided by the createSharedTask()
+call. All AVMU tasks used in a coordinated acqusition must share
+their internal communication object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sync_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State`if</span> <span class="pre">the</span> <span class="pre">Task</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">``TASK_UNINITIALIZED`</span></code> or <code class="docutils literal notranslate"><span class="pre">TASK_STOPPED</span></code> state</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.getSyncPulseMode">
+<code class="descname">getSyncPulseMode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.getSyncPulseMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.getSyncPulseMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current sync pulse mode for this unit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Current sync-pulse mode as a string.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.addExclusionBand">
+<code class="descname">addExclusionBand</code><span class="sig-paren">(</span><em>start_freq</em>, <em>stop_freq</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.addExclusionBand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.addExclusionBand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exclusion bands are used to prevent the AVMU from transmitting in specific
+frequency ranges. This is generally used to “mask out” sensitive RF regions,
+so things like GPS are not negatively affected by the AVMU.</p>
+<p>The AVMU will still take data at points within the exclusion band, but
+the RF output will be disabled.</p>
+<p>Multiple exclusion bands are logically ORed together. Basically, if
+a frequency point falls within <em>any</em> exclusion band, it will result in the
+RF output being disabled.</p>
+<p>As such, repeated or overlapping exclusion bands are valid (though
+they are somewhat pointless).</p>
+<p>Note that you cannot add exclusion bands before connecting to an AVMU.</p>
+<p>Note that start_freq must be smaller then stop_freq.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>start_freq</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>MHz</em>) – </li>
+<li><strong>stop_freq</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>MHz</em><em>) </em><em>- End of the exclusion band</em><em> (</em><em>MUST be larger then start_freq</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a> if the Task is not in the TASK_STOPPED state</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.clearExclusionBands">
+<code class="descname">clearExclusionBands</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.clearExclusionBands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.clearExclusionBands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the internal list of exclusion bands stored in the AvmuInterface.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Err_Invalid_Parameter" title="avmu.avmu_exceptions.Avmu_Exception_Err_Invalid_Parameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Err_Invalid_Parameter</span></code></a> if the parameters do not make sense.</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a> if the Task is not in the TASK_STOPPED state</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.getExclusionBandCount">
+<code class="descname">getExclusionBandCount</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.getExclusionBandCount"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.getExclusionBandCount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of separate exclusion bands configured in the AvmuInterface.</p>
+<p>This is required to enumerate the active exclusion bands.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">exclusion_band_count(int) number of exclusion bands configured.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a> if the Task is not in the TASK_STOPPED state</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.getExclusionBand">
+<code class="descname">getExclusionBand</code><span class="sig-paren">(</span><em>band_idx</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.getExclusionBand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.getExclusionBand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the (start_f_mhz, stop_f_mhz) values for exclusion band band_idx.</p>
+<p>Given a index of 0 &lt;= idx &lt; getExclusionBandCount(), return
+the corresponding exclusion band start/end frequency.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">2-tuple of start_f_mhz (double), stop_f_mhz (double)</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a> if the Task is not in the TASK_STOPPED state</li>
+<li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Err_Index_Out_Of_Bounds" title="avmu.avmu_exceptions.Avmu_Exception_Err_Index_Out_Of_Bounds"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Err_Index_Out_Of_Bounds</span></code></a> if the specified index is not valid.                                                                                           Note that when no exclusion bands are                                                                                           specified, ALL possible values for idx                                                                                          are therefore invalid.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="avmu.AvmuInterface.getPreciseTimePerFrame">
+<code class="descname">getPreciseTimePerFrame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.getPreciseTimePerFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.getPreciseTimePerFrame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the precise time (in seconds) that a Frame will take.</p>
+<p>This function only operates properly when a AVMU is in the started or running states, as
+the sweep program is not computed until the transition to the started state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>Frame time, as a double, in fractional seconds.</dt>
+<dd>If the task is not valid, or in the correct state,
+the return value is -1.</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-avmu.avmu_exceptions">
+<span id="exceptions"></span><h1>Exceptions<a class="headerlink" href="#module-avmu.avmu_exceptions" title="Permalink to this headline">¶</a></h1>
+<p>Each exception corresponds to the eponymous C error return code, prefixed with <code class="docutils literal notranslate"><span class="pre">Avmu_Exception_</span></code>.</p>
+<p>Note that these exceptions are also available as <code class="docutils literal notranslate"><span class="pre">avmu.Avmu_Exception_*</span></code>, as they’re
+star-imported into the main avmu module.</p>
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<p>Base exception class that all library exceptions inherit from. This
+can be used to easily catch all exceptions that are specifically
+thrown by the <code class="docutils literal notranslate"><span class="pre">avmu</span></code> library.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Bad_Atten">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Bad_Atten</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Bad_Atten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Bad_Atten" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating the specified attenuation value was not valid.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Bad_Cal">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Bad_Cal</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Bad_Cal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Bad_Cal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating the current calibration is invalid. Only relevant for VNAs.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Bad_Handle">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Bad_Handle</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Bad_Handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Bad_Handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating the current handle passed to a DLL function was not valid.</p>
+<p>Generally indicates an internal error. If this occurs repeatedly, please contact support.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Bad_Hop">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Bad_Hop</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Bad_Hop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Bad_Hop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating the specified hop-rate value was not valid.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Bad_Path">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Bad_Path</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Bad_Path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Bad_Path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating the specified path is not allowed, or was invalid.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Bad_Prom">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Bad_Prom</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Bad_Prom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Bad_Prom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating that the AVMU PROM was not in a known format.
+Please contact support if this is a reoccurring issue.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Bytes">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Bytes</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Bytes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating the DLL has received an incorrect number of bytes from the AVMU.
+Possibly indicative of a network issue.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Freq_Out_Of_Bounds">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Freq_Out_Of_Bounds</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Freq_Out_Of_Bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Freq_Out_Of_Bounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating one of the specified frequency bounds was beyond the hardware’s available range.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Interrupted">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Interrupted</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Interrupted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Interrupted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating that the measurement was asynchronously interrupted from another thread.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_No_Response">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_No_Response</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_No_Response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_No_Response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating the remote instrument failed to respond to commands within the current timeout period.
+If this persists, check your network and try power cycling the AVMU.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Missing_Ip">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Missing_Ip</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Missing_Ip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Missing_Ip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating you have not yet specified the IP of the remote device before connecting.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Missing_Port">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Missing_Port</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Missing_Port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Missing_Port" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating you have not yet specified the port for the remote device before connecting.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Missing_Hop">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Missing_Hop</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Missing_Hop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Missing_Hop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating you have not yet specified the hop-rate for the remote device before connecting.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Missing_Atten">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Missing_Atten</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Missing_Atten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Missing_Atten" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>The switchboard config requires an attenuation value to be specified, and it has not been.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Missing_Freqs">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Missing_Freqs</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Missing_Freqs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Missing_Freqs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating you have not yet specified the frequency endpoints for the remote device before connecting.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Prog_Overflow">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Prog_Overflow</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Prog_Overflow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Prog_Overflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating the generated program to run on the remote device was larger than it can handle.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Socket">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Socket</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Socket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Socket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating an unknown socket error occured.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Too_Many_Points">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Too_Many_Points</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Too_Many_Points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Too_Many_Points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating you are trying to take more data points than the hardware is capable of.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Wrong_State">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Wrong_State</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Wrong_State"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating the hardware is not in the correct state for the function you are trying to call.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Empty_Prom">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Empty_Prom</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Empty_Prom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Empty_Prom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating the remote device’s PROM appears to be empty.
+Power cycle the AVMU, and if the problem persists, contact Akela.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Path_Already_Measured">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Path_Already_Measured</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Path_Already_Measured"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Path_Already_Measured" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating you are adding a path to measure that you had already added.</p>
+<p>These restrictions have been relaxed in recent releases.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_No_Measured_Paths">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_No_Measured_Paths</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_No_Measured_Paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_No_Measured_Paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating there are no paths to measure, and the hardware has nothing to do.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Wrong_Program_Type">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Wrong_Program_Type</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Wrong_Program_Type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_Program_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating you are in sync mode and are trying to call an async startup function.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Unknown_Feature">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Unknown_Feature</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Unknown_Feature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Unknown_Feature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>Error code indicating the AVMU’s prom indicates it has a hardware feature that this
+version of the DLL doesn’t know about. Either indicates you need to update, or the prom is corrupted.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Feature_Not_Present">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Feature_Not_Present</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Feature_Not_Present"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Feature_Not_Present" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>You are trying to configure a hardware feature not present in the connected AVMU.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_No_Attenuator_Present">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_No_Attenuator_Present</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_No_Attenuator_Present"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_No_Attenuator_Present" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>You are trying to specify an attenuation value on hardware without an attenuator.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Bad_IP_Port">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Bad_IP_Port</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Bad_IP_Port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Bad_IP_Port" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>The UDP port you specified is not valid. You must use a port &gt;= 1024 and &lt; 65535</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Task_Array_Invalid">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Task_Array_Invalid</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Task_Array_Invalid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Task_Array_Invalid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>The batch-task array parameter appears to not be valid.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Path_Has_No_Data">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Path_Has_No_Data</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Path_Has_No_Data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Path_Has_No_Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>No data was acquired for the specified path. Either you didn’t add the path,
+didn’t call measure(), or something else is wrong.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Err_Index_Out_Of_Bounds">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Err_Index_Out_Of_Bounds</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Err_Index_Out_Of_Bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Err_Index_Out_Of_Bounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>The sweep index/exclusion band you are trying to extract is outside the bounds of the array.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Err_Invalid_Parameter">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Err_Invalid_Parameter</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Err_Invalid_Parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Err_Invalid_Parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<p>One of the specified parameters is not valid.
+If you are specifying sweep frequency, check your frequency bands.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="avmu.avmu_exceptions.Avmu_Exception_Err_Prom_Invalid_Feature_Configuration">
+<em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception_Err_Prom_Invalid_Feature_Configuration</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception_Err_Prom_Invalid_Feature_Configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception_Err_Prom_Invalid_Feature_Configuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception" title="avmu.avmu_exceptions.Avmu_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">avmu.avmu_exceptions.Avmu_Exception</span></code></a></p>
+<dl class="docutils">
+<dt>The AVMU’s prom contains feature flags that are incompatible with each other.</dt>
+<dd>Please contact support.</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="constants">
+<h1>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p>API Constants. These are primarily passed to various arguments as literal strings.</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Settings for the hop-rate (e.g. time spent sampling each frequency point) in a sweep.</div>
+<div class="line">Faster hop rates result in lower dynamic range (but faster sweeps).</div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">HOP_UNDEFINED</span></code> - Hop rate not set yet</li>
+<li><code class="docutils literal notranslate"><span class="pre">HOP_90K</span></code>       - This rate is currently unsupported but may be enabled in the future 90K Pts/second</li>
+<li><code class="docutils literal notranslate"><span class="pre">HOP_45K</span></code>       - Hop rate of 45K points/second</li>
+<li><code class="docutils literal notranslate"><span class="pre">HOP_30K</span></code>       - Hop rate of 30K points/second</li>
+<li><code class="docutils literal notranslate"><span class="pre">HOP_15K</span></code>       - Hop rate of 15K points/second</li>
+<li><code class="docutils literal notranslate"><span class="pre">HOP_7K</span></code>        - Hop rate of 7K points/second</li>
+<li><code class="docutils literal notranslate"><span class="pre">HOP_3K</span></code>        - Hop rate of 3K points/second</li>
+<li><code class="docutils literal notranslate"><span class="pre">HOP_2K</span></code>        - Hop rate of 2K points/second</li>
+<li><code class="docutils literal notranslate"><span class="pre">HOP_1K</span></code>        - Hop rate of 1K points/second</li>
+<li><code class="docutils literal notranslate"><span class="pre">HOP_550</span></code>       - Hop rate of 550 points/second</li>
+<li><code class="docutils literal notranslate"><span class="pre">HOP_312</span></code>       - Hop rate of 312 points/second</li>
+<li><code class="docutils literal notranslate"><span class="pre">HOP_156</span></code>       - Hop rate of 156 points/second</li>
+<li><code class="docutils literal notranslate"><span class="pre">HOP_78</span></code>        - Hop rate of 78 points/second</li>
+<li><code class="docutils literal notranslate"><span class="pre">HOP_39</span></code>        - Hop rate of 39 points/second</li>
+<li><code class="docutils literal notranslate"><span class="pre">HOP_20</span></code>        - Hop rate of 20 points/second</li>
+</ul>
+</div></blockquote>
+<p>Available task states.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">TASK_UNINITIALIZED</span></code> - Task state of uninitialized</li>
+<li><code class="docutils literal notranslate"><span class="pre">TASK_STOPPED</span></code>       - Task state of stopped</li>
+<li><code class="docutils literal notranslate"><span class="pre">TASK_STARTED</span></code>       - Task state of started</li>
+<li><code class="docutils literal notranslate"><span class="pre">TASK_RUNNING</span></code>       - Task state of running</li>
+</ul>
+<p>Acquisition mode (synchronous, asynchronous) for the current acquisition</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">PROG_ASYNC</span></code>  - Asynchronous acquisition mode</li>
+<li><code class="docutils literal notranslate"><span class="pre">PROG_SYNC</span></code>   - Synchronous acquisition mode</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">Akela AVMU</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Akela Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
