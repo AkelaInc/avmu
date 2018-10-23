@@ -40,6 +40,8 @@
 <dt id="avmu.AvmuInterface">
 <em class="property">class </em><code class="descclassname">avmu.</code><code class="descname">AvmuInterface</code><span class="sig-paren">(</span><em>share_from_interface=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the base AVMU interface class.</p>
+<p>This is the core class for acquiring data via an AKELA Inc. Vector
+Measurement Unit (or AVMU).</p>
 <p>For multi-AVMU operation, pass the first created interface
 to any additional interface class instances. This allows all
 the interface instances to share the same underlying communication
@@ -48,6 +50,10 @@ objects, which is needed for synchronized operation.</p>
 such as broadcastBeginCommand() will not operate properly.</p>
 <p>Unfortunately, there is no coherent way to validate this
 in the library code, so it’s left up to the user.</p>
+<p>Accessing the same AVMU interface from separate threads is <em>not</em>
+threadsafe. However, Accessing different AVMU interface classes from
+separate threads that share the same underlying communication interface
+should be thread-safe.</p>
 <p>Note: All library functions can theoretically raise  <a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Bad_Handle" title="avmu.avmu_exceptions.Avmu_Exception_Bad_Handle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Bad_Handle</span></code></a>
 if the internal task handle has been corrupted. As such, this particular exception will not be explicitly
 enumerated for every possible call.</p>

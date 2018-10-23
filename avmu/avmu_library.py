@@ -27,6 +27,9 @@ class AvmuInterface(object):
 		'''
 		Create the base AVMU interface class.
 
+		This is the core class for acquiring data via an AKELA Inc. Vector
+		Measurement Unit (or AVMU).
+
 		For multi-AVMU operation, pass the first created interface
 		to any additional interface class instances. This allows all
 		the interface instances to share the same underlying communication
@@ -37,6 +40,11 @@ class AvmuInterface(object):
 
 		Unfortunately, there is no coherent way to validate this
 		in the library code, so it's left up to the user.
+
+		Accessing the same AVMU interface from separate threads is *not*
+		threadsafe. However, Accessing different AVMU interface classes from
+		separate threads that share the same underlying communication interface
+		should be thread-safe.
 
 		Note: All library functions can theoretically raise  :class:`~avmu.avmu_exceptions.Avmu_Exception_Bad_Handle`
 		if the internal task handle has been corrupted. As such, this particular exception will not be explicitly
