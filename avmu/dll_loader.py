@@ -62,7 +62,6 @@ def check_copy_to_local(fq_dll_path, dll_name):
 	if fq_dll_path.startswith(lib_dir):
 		return fq_dll_path
 
-	print("DLL is not located in the library directory. Attempting to copy it there")
 	to_path = os.path.join(lib_dir, dll_name)
 
 
@@ -71,7 +70,10 @@ def check_copy_to_local(fq_dll_path, dll_name):
 			if f_a.read() == f_b.read():
 				return to_path
 			else:
-				print("Dll in library directory differs from build directory!")
+				print("Dll in library directory differs from build directory! Attempting to copy it there")
+	else:
+		print("DLL is not located in the library directory. Attempting to copy it there")
+
 	try:
 		shutil.copy(fq_dll_path, to_path)
 		print("Library copied into tree. Path: %s" % (to_path))
