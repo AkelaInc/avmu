@@ -76,6 +76,16 @@ from any location.
 
 
 
+## Changes:
+
+0.0.4:
+ - Improved return of `getHardwareDetails()` call to include hardware feature flags, 
+    which makes determining what a remote AVMU can do easier then just trying to 
+    turn on assorted features and seeing if you get errors.
+ - Fixed typo in the reported versions in `setup.py` to include python 3.4.
+
+0.0.3:
+ - Initial Release
 
 
 
