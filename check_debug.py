@@ -13,7 +13,7 @@ def check_dll():
 
 def update_docs():
 	os.system('make html')
-	os.system('cp -r ./build/html/ ./docs')
+	os.system('cp -r ./build/html/* ./docs')
 
 
 
