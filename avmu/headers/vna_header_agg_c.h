@@ -467,7 +467,7 @@
 	 *        reply to a command before giving up and returning an ERR_NO_RESPONSE
 	 *        condition. For the measurement functions, this is the amount
 	 *        of time to wait beyond the expected sweep time. When a Task is
-	 *        created, the timeout value defaults to 150.
+	 *        created, the timeout value defaults to 100.
 	 *
 	 *   TODO: VALIDATE THIS - What happens if passed 0?
 	 *
@@ -576,7 +576,7 @@
 
 	//
 	/**
-	 * @brief Get the current time to wait for the unit to reply to commands. When a Task is first created, this will default to 150.
+	 * @brief Get the current time to wait for the unit to reply to commands. When a Task is first created, this will default to 100 ms.
 	 *
 	 * @param t Handle for the current task
 	 * @return current timeout in milliseconds
@@ -700,6 +700,11 @@
 	 *
 	 *        Note that this can be called from any state, provided an IP and port are present.
 	 *
+	 * @param tries Number of pings to send before concluding a unit is not responding.
+	 *              The call will block for at most tries * timeout milliseconds.
+	 *              Note that certain states can cause the hardware to be unable to 
+	 *              respond to the first ping, so tries > 1 is generally recommended.
+	 *
 	 * @param t Handle for the current task
 	 * @return Call status - Possible return values:
 	 *        - ERR_OK if all went according to plan
@@ -708,7 +713,7 @@
 	 *        - ERR_MISSING_IP if no IP address has been set
 	 *        - ERR_MISSING_PORT if no port has been set
 	 */
-	__declspec(dllimport) ErrCode utilPingUnit(TaskHandle t);
+	__declspec(dllimport) ErrCode utilPingUnit(TaskHandle t, int tries = 5);
 
 
 	/**

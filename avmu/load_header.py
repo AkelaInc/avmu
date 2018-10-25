@@ -51,6 +51,7 @@ def replace_preprocessor(in_header, no_declspec, cpp=False, htype=None):
 
 	if not cpp:
 		in_header = re.sub("// <<<<<< CPP WRAP START.*?CPP WRAP END >>>>>>>>", "", in_header, flags=re.DOTALL)
+		in_header = in_header.replace(" = 5", "")    # Default arguments break the parser
 		in_header = in_header.replace(" = 0", "")    # Default arguments break the parser
 		in_header = in_header.replace(" = true", "") # Default arguments break the parser
 		in_header = in_header.replace(" = NULL", "") # Default arguments break the parser

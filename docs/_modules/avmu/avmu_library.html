@@ -842,7 +842,7 @@
 <span class="sd">		Sets the default time to wait, in milliseconds, for a unit to reply to a command</span>
 <span class="sd">		before giving up and returning an ERR_NO_RESPONSE condition. For the measurement</span>
 <span class="sd">		functions, this is the amount of time to wait beyond the expected sweep time.</span>
-<span class="sd">		When a Task is created, the timeout value defaults to 1000.</span>
+<span class="sd">		When a Task is created, the timeout value defaults to 100.</span>
 
 <span class="sd">		A timeout value of 0 results in non-blocking call, where the call will return</span>
 <span class="sd">		immediately if there is no data in the OS receive buffer.</span>
@@ -1040,7 +1040,7 @@
 		<span class="p">}</span>
 		<span class="k">return</span> <span class="n">ret</span></div>
 
-<div class="viewcode-block" id="AvmuInterface.utilPingUnit"><a class="viewcode-back" href="../../index.html#avmu.AvmuInterface.utilPingUnit">[docs]</a>	<span class="k">def</span> <span class="nf">utilPingUnit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="AvmuInterface.utilPingUnit"><a class="viewcode-back" href="../../index.html#avmu.AvmuInterface.utilPingUnit">[docs]</a>	<span class="k">def</span> <span class="nf">utilPingUnit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tries</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
 		<span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">		Sends an &quot;are you there&quot; message to the unit.</span>
 
@@ -1054,6 +1054,11 @@
 
 <span class="sd">		Raises an exception if the unit did not respond, returns nothing otherwise.</span>
 
+<span class="sd">		Args:</span>
+<span class="sd">			tries (int) Number of pings to send before concluding a unit is not responding.</span>
+<span class="sd">			      The call will block for at most ``tries`` * ``timeout`` milliseconds.</span>
+<span class="sd">			      Note that certain states can cause the hardware to be unable to</span>
+<span class="sd">			      respond to the first ping, so tries &gt; 1 is generally recommended.</span>
 
 <span class="sd">		Raises:</span>
 
@@ -1065,7 +1070,7 @@
 <span class="sd">		&#39;&#39;&#39;</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;utilPingUnit call&quot;</span><span class="p">)</span>
 		<span class="c1"># Signature: ErrCode utilPingUnit(TaskHandle t);</span>
-		<span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dll</span><span class="o">.</span><span class="n">utilPingUnit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_handle</span><span class="p">)</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dll</span><span class="o">.</span><span class="n">utilPingUnit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_handle</span><span class="p">,</span> <span class="n">tries</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">__check_ret</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;utilPingUnit return&quot;</span><span class="p">)</span>
 		<span class="k">return</span> <span class="kc">True</span></div>

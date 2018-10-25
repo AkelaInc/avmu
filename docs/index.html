@@ -418,7 +418,7 @@ sweep. This is a valid operating mode.</p>
 <dd><p>Sets the default time to wait, in milliseconds, for a unit to reply to a command
 before giving up and returning an ERR_NO_RESPONSE condition. For the measurement
 functions, this is the amount of time to wait beyond the expected sweep time.
-When a Task is created, the timeout value defaults to 1000.</p>
+When a Task is created, the timeout value defaults to 100.</p>
 <p>A timeout value of 0 results in non-blocking call, where the call will return
 immediately if there is no data in the OS receive buffer.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -543,7 +543,7 @@ and optionally reset the cumulative encoder counter.</p>
 
 <dl class="method">
 <dt id="avmu.AvmuInterface.utilPingUnit">
-<code class="descname">utilPingUnit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.utilPingUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.utilPingUnit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">utilPingUnit</code><span class="sig-paren">(</span><em>tries=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.utilPingUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.utilPingUnit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sends an “are you there” message to the unit.</p>
 <p>Note that this function should not be
 called while a frequency sweep is ongoing, because it causes that sweep to prematurely
@@ -556,7 +556,12 @@ waits for a reply for the length of time specified by getTimeout() before giving
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tries</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The call will block for at most <code class="docutils literal notranslate"><span class="pre">tries</span></code> * <code class="docutils literal notranslate"><span class="pre">timeout</span></code> milliseconds.
+Note that certain states can cause the hardware to be unable to
+respond to the first ping, so tries &gt; 1 is generally recommended.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
 <li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Socket" title="avmu.avmu_exceptions.Avmu_Exception_Socket"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Socket</span></code></a> if there was a problem sending a message</li>
 <li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_No_Response" title="avmu.avmu_exceptions.Avmu_Exception_No_Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_No_Response</span></code></a> if the unit did not respond to commands</li>
 <li><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Missing_Ip" title="avmu.avmu_exceptions.Avmu_Exception_Missing_Ip"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Missing_Ip</span></code></a> if no IP address has been set</li>

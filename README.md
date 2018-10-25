@@ -78,10 +78,18 @@ from any location.
 
 ## Changes:
 
+0.0.5
+ - `utilPingUnit()` now takes an optional parameter to specify the number of retry attemps 
+   for the ping.
+ - Default timeout library-wide set to 100 milliseconds. Previously, it was 1000 milliseconds
+   (and mis-documented as being 150). 1000 ms  doesn't make much sense in the context of the hardware, 
+   which cannot (generally) perform blocking operations at all. As such, it *can't* take longer 
+   then a millisecond or two to respond, if it received a message at all. 
+
 0.0.4:
- - Improved return of `getHardwareDetails()` call to include hardware feature flags, 
-    which makes determining what a remote AVMU can do easier then just trying to 
-    turn on assorted features and seeing if you get errors.
+ - Improved return of `getHardwareDetails()` call to include hardware feature flags,   
+   which makes determining what a remote AVMU can do easier then just trying to   
+   turn on assorted features and seeing if you get errors.
  - Fixed typo in the reported versions in `setup.py` to include python 3.4.
 
 0.0.3:

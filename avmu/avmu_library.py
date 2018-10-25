@@ -807,7 +807,7 @@ class AvmuInterface(object):
 		Sets the default time to wait, in milliseconds, for a unit to reply to a command
 		before giving up and returning an ERR_NO_RESPONSE condition. For the measurement
 		functions, this is the amount of time to wait beyond the expected sweep time.
-		When a Task is created, the timeout value defaults to 1000.
+		When a Task is created, the timeout value defaults to 100.
 
 		A timeout value of 0 results in non-blocking call, where the call will return
 		immediately if there is no data in the OS receive buffer.
@@ -1005,7 +1005,7 @@ class AvmuInterface(object):
 		}
 		return ret
 
-	def utilPingUnit(self):
+	def utilPingUnit(self, tries = 5):
 		'''
 		Sends an "are you there" message to the unit.
 
@@ -1019,6 +1019,11 @@ class AvmuInterface(object):
 
 		Raises an exception if the unit did not respond, returns nothing otherwise.
 
+		Args:
+			tries (int) Number of pings to send before concluding a unit is not responding.
+			      The call will block for at most ``tries`` * ``timeout`` milliseconds.
+			      Note that certain states can cause the hardware to be unable to
+			      respond to the first ping, so tries > 1 is generally recommended.
 
 		Raises:
 
@@ -1030,7 +1035,7 @@ class AvmuInterface(object):
 		'''
 		self.log.debug("utilPingUnit call")
 		# Signature: ErrCode utilPingUnit(TaskHandle t);
-		ret = self.dll.utilPingUnit(self.task_handle)
+		ret = self.dll.utilPingUnit(self.task_handle, tries)
 		self.__check_ret(ret)
 		self.log.debug("utilPingUnit return")
 		return True
