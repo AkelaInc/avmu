@@ -78,6 +78,9 @@ from any location.
 
 ## Changes:
 
+0.0.6
+ - Re-enable RTTI in the DLL, so it stops exploding. Whoops, sorry about that.
+ 
 0.0.5
  - `utilPingUnit()` now takes an optional parameter to specify the number of retry attemps 
    for the ping.

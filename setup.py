@@ -21,7 +21,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name                          = "avmu",
-    version                       = "0.0.5",
+    version                       = "0.0.6",
     author                        = "Connor Wolf, Akela Inc",
     author_email                  = "cwolf@akelainc.com",
     description                   = "Control interface and API for running Akela Vector Measurement Units.",
