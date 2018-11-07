@@ -386,7 +386,7 @@ def go():
 	avmut = AvmuThread()
 	avmut.start_thread()
 
-	avmut.send_worker_command("connect", ("192.168.1.219", 1027))
+	avmut.send_worker_command("connect", ("192.168.1.223", 1027))
 
 	# Sweep commands are num points, start f, stop f, hop rate
 	avmut.send_worker_command("sweep", (1024, 1000, 2000, "HOP_45K"))

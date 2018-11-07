@@ -19,6 +19,10 @@ def get_search_paths():
 	''' Build a list of search paths where we should look for the
 	AVMU DLL.
 
+	A bunch of these are basically useless anywhere but in the DLL development
+	process. They're harmless if you're not in a dev env, so I'm just
+	leaving them there.
+
 	'''
 	locations = []
 	loc = os.path.dirname(os.path.abspath(__file__))
@@ -90,14 +94,18 @@ def find_dll():
 	system environment (`PATH`) for the DLL/SO.
 	'''
 
-	dll_lut = {"Linux" : "libavmu.so", "Windows" : "avmudll.dll"}
+	dll_lut = {
+			("Linux",   '32bit', 'ELF',      'armv7l') : "libavmu_armv7l_linux.so",
+			# ("Linux",   '64bit', 'ELF',       'AMD64') : "libavmu_amd64_linux.so",
+			("Windows", '64bit', 'WindowsPE', 'AMD64') : "avmudll_amd64_win.dll"
+		}
 
-	plat = platform.system()
+	plat = (platform.system(), ) + platform.architecture() + (platform.machine(), )
 
 	if plat in dll_lut:
 		dll_name = dll_lut[plat]
 	else:
-		raise RuntimeError("Unknown platform: '%s'" % platform.system())
+		raise RuntimeError("Unknown platform tuple: '%s'" % plat)
 
 	locations = get_search_paths()
 

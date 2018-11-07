@@ -2,9 +2,9 @@
 import os
 
 
-def check_dll():
+def check_dll(dll_path):
 
-	with open("avmu/avmudll.dll", "rb") as fp:
+	with open(dll_path, "rb") as fp:
 		dll_bin = fp.read()
 
 
@@ -18,5 +18,6 @@ def update_docs():
 
 
 if __name__ == '__main__':
-	check_dll()
+	check_dll("avmu/avmudll_amd64_win.dll")
+	check_dll("avmu/libavmu_armv7l_linux.so")
 	update_docs()

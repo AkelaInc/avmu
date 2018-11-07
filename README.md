@@ -78,6 +78,9 @@ from any location.
 
 ## Changes:
 
+0.0.7
+ - Minor DLL lookup improvements. Added linux armv7l shared object (e.g. raspberry pi version). 
+
 0.0.6
  - Re-enable RTTI in the DLL, so it stops exploding. Whoops, sorry about that.
  
