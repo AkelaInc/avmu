@@ -78,11 +78,15 @@ from any location.
 
 ## Changes:
 
-0.0.8
+0.0.9
  - The combo utils tool has been updated to include the transmitting AVMU in each combo tuple.
    This will require any software that uses `avmu.combo_utils` to be updated, but as that particular
    file is so-far undocumented, this is not regarded as a breaking change. This change is motivated
    entirely by internal use of the library.
+
+0.0.8
+ - Added linux x86_64 shared object. This `.so` was built on ubuntu 16.04, so it will likely work on 
+   most debian variants.
 
 0.0.7
  - Minor DLL lookup improvements. Added linux armv7l shared object (e.g. raspberry pi version). 
