@@ -1,6 +1,6 @@
 
 import collections
-AvmuComboTuple = collections.namedtuple('AvmuComboTuple', ['idx', 'tx_path', 'rx_path'])
+AvmuComboTuple = collections.namedtuple('AvmuComboTuple', ['tx_idx', 'rx_idx', 'tx_path', 'rx_path'])
 
 def path_the_same(txp, rxp):
 	return txp.replace("_TX_", "_RX_") == rxp
@@ -81,7 +81,7 @@ def generate_combo_list(avmu_list, schedule_type):
 						# The valid combos for the s-param board are 0->0, 1->1, 2->2, 3->3, 4->4.
 
 						if tx_num == rx_num:
-							avmu_conf = AvmuComboTuple(rx_avmu_idx, tx_port, rx_port)
+							avmu_conf = AvmuComboTuple(tx_avmu_idx, rx_avmu_idx, tx_port, rx_port)
 							tx_set.append(avmu_conf)
 
 					else:
@@ -99,7 +99,7 @@ def generate_combo_list(avmu_list, schedule_type):
 						else:
 							tx_port_masked = tx_port
 
-						avmu_conf = AvmuComboTuple(rx_avmu_idx, tx_port_masked, rx_port_masked)
+						avmu_conf = AvmuComboTuple(tx_avmu_idx, rx_avmu_idx, tx_port_masked, rx_port_masked)
 						if schedule_type == 'SIMULTANEOUS':
 							tx_set.append(avmu_conf)
 						elif schedule_type == "SEQUENTIAL":

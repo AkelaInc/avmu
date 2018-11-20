@@ -38,13 +38,13 @@ def replace_preprocessor(in_header, no_declspec, cpp=False, htype=None):
 		raise ValueError("Invalid header type: '%s'" % htype)
 
 	if no_declspec:
-		print("Doing no __declspec generation")
+		# print("Doing no __declspec generation")
 		in_header = in_header.replace("AVMUDLL_API", "__declspec(dllimport)")
 		in_header = in_header.replace("VNADLL_API",   "__declspec(dllimport)")
 		in_header = in_header.replace("xxxDLL_API",   "__declspec(dllimport)")
 		in_header = in_header.replace("__declspec(dllimport)", "")
 	else:
-		print("Doing __declspec generation")
+		# print("Doing __declspec generation")
 		in_header = in_header.replace("AVMUDLL_API", "__declspec(dllimport)")
 		in_header = in_header.replace("VNADLL_API",   "__declspec(dllimport)")
 		in_header = in_header.replace("xxxDLL_API",   "__declspec(dllimport)")

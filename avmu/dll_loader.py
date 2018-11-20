@@ -28,10 +28,10 @@ def get_search_paths():
 	loc = os.path.dirname(os.path.abspath(__file__))
 	up = os.path.abspath(os.path.join(loc, "../"))
 	upp = os.path.abspath(os.path.join(up, "../"))
-	build_dir_dbg1 = os.path.abspath(os.path.join(loc, "../../../x64/Debug/"))
+	build_dir_rls2 = os.path.abspath(os.path.join(loc, "../../../Out/x64/ReleaseWPrivateApi/"))
 	build_dir_dbg2 = os.path.abspath(os.path.join(loc, "../../../Out/x64/Debug/"))
 	build_dir_rls1 = os.path.abspath(os.path.join(loc, "../../../Out/x64/Release/"))
-	build_dir_rls2 = os.path.abspath(os.path.join(loc, "../../../Out/x64/ReleaseWPrivateApi/"))
+	build_dir_dbg1 = os.path.abspath(os.path.join(loc, "../../../x64/Debug/"))
 	build_dir_rls3 = os.path.abspath(os.path.join(loc, "../../../../../Out/x64/ReleaseWPrivateApi/"))
 	build_dir_rls4 = os.path.abspath(os.path.join(loc, "../../../../../Out/x64/Release/"))
 	locations.append(build_dir_dbg1)
@@ -111,6 +111,10 @@ def find_dll():
 
 
 	for location in locations:
+		build_dll_name = os.path.join(location, 'avmudll.dll')
+		if os.path.exists(build_dll_name):
+			print("Found avmu dll at path: '{}'".format(build_dll_name))
+			return check_copy_to_local(build_dll_name, dll_name)
 		fq_dll_path = os.path.join(location, dll_name)
 		if os.path.exists(fq_dll_path):
 			print("Found avmu dll at path: '{}'".format(fq_dll_path))

@@ -1,5 +1,4 @@
 
-import tqdm
 import random
 from . import avmu_library
 from . import avmu_exceptions
