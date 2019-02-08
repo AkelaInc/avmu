@@ -78,6 +78,17 @@ from any location.
 
 ## Changes:
 
+0.0.11
+ - Add extra setup classifiers that indicate MacOS/Linux support (whoops!)
+
+0.0.10
+ - This changeset primarily adds (preliminary) support for MacOS.
+   There are no internal changes to the AVMU library, it solely consists of adding support 
+   for locating/loading MacOS DyLibs, and the associated (internal) build-process support 
+   for compiling on MacOS.
+   Additionally, the windows build environment was also updated to VC141 (VS2017). This 
+   should not affect users of this library, as the C ABI is stable across versions.
+
 0.0.9
  - The combo utils tool has been updated to include the transmitting AVMU in each combo tuple.
    This will require any software that uses `avmu.combo_utils` to be updated, but as that particular

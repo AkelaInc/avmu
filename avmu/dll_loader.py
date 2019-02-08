@@ -46,7 +46,11 @@ def get_search_paths():
 
 
 
-	split_on = {"Linux" : ":", "Windows" : ";"}
+	split_on = {
+		"Darwin" : ":",
+		"Linux" : ":",
+		"Windows" : ";"
+		}
 	split = os.environ['PATH'].split(split_on[platform.system()])
 
 	if getattr(sys, 'frozen', False):
@@ -97,7 +101,8 @@ def find_dll():
 	dll_lut = {
 			("Linux",   '32bit', 'ELF',       'armv7l') : "libavmu_armv7l_linux.so",
 			("Linux",   '64bit', 'ELF',       'x86_64') : "libavmu_amd64_linux.so",
-			("Windows", '64bit', 'WindowsPE', 'AMD64' ) : "avmudll_amd64_win.dll"
+			("Windows", '64bit', 'WindowsPE', 'AMD64' ) : "avmudll_amd64_win.dll",
+			('Darwin',  '64bit', '',          'x86_64') : "libavmu_amd64_macos.dylib",
 		}
 
 	plat = (platform.system(), ) + platform.architecture() + (platform.machine(), )
@@ -113,13 +118,14 @@ def find_dll():
 	for location in locations:
 		build_dll_name = os.path.join(location, 'avmudll.dll')
 		if os.path.exists(build_dll_name):
-			print("Found avmu dll at path: '{}'".format(build_dll_name))
+			print("Found testing avmu dll at path: '{}'".format(build_dll_name))
 			return check_copy_to_local(build_dll_name, dll_name)
+
 		fq_dll_path = os.path.join(location, dll_name)
 		if os.path.exists(fq_dll_path):
 			print("Found avmu dll at path: '{}'".format(fq_dll_path))
 			return check_copy_to_local(fq_dll_path, dll_name)
-	raise ValueError("Could not find DLL/SO! Searched paths: \n	- %s" % "\n	- ".join(locations))
+	raise ValueError("Could not find DLL/SO/DyLIB! Searched paths: \n	- %s" % "\n	- ".join(locations))
 
 
 STATIC_FFI = None
