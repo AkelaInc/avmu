@@ -78,6 +78,9 @@ from any location.
 
 ## Changes:
 
+0.0.12
+ - Remove setup.py windows check (thanks https://github.com/AkelaInc/avmu/pull/1!)
+
 0.0.11
  - Add extra setup classifiers that indicate MacOS/Linux support (whoops!)
 
