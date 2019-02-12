@@ -6,10 +6,6 @@ import os
 if sys.version_info < (3, 4):
     sys.exit('Sorry, Python < 3.4 is not supported')
 
-if os.name != 'nt':
-    sys.exit('Only windows installs are supported for PyPi installs. Please ' +
-        'contact AKELA Inc for linux packages.')
-
 if struct.calcsize("P") * 8 != 64:
     sys.exit("This interface requires 64 bit python!")
 
