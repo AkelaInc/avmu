@@ -6,8 +6,9 @@ import os
 if sys.version_info < (3, 4):
     sys.exit('Sorry, Python < 3.4 is not supported')
 
-if struct.calcsize("P") * 8 != 64:
-    sys.exit("This interface requires 64 bit python!")
+# We now have 32 bit linux builds (because linuxcnc is annoying)
+# if struct.calcsize("P") * 8 != 64:
+#     sys.exit("This interface requires 64 bit python!")
 
 
 import setuptools
@@ -17,7 +18,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name                          = "avmu",
-    version                       = "0.0.12",
+    version                       = "0.1.1",
     author                        = "Connor Wolf, Akela Inc",
     author_email                  = "cwolf@akelainc.com",
     description                   = "Control interface and API for running Akela Vector Measurement Units.",
@@ -36,7 +37,5 @@ setuptools.setup(
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Science/Research",
         "Operating System :: Microsoft :: Windows",
-		"Operating System :: MacOS :: MacOS X",
-		"Operating System :: POSIX :: Linux",
     ],
 )

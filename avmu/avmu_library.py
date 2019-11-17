@@ -15,6 +15,7 @@ Author: Connor Wolf <cwolf@akelainc.com>
 '''
 
 import logging
+import traceback
 import numpy as np
 from . import dll_loader
 from . import avmu_exceptions
@@ -679,7 +680,7 @@ class AvmuInterface(object):
 		# ErrCode getIfGain(TaskHandle t, IfGain* new_gain);
 		assert gain_setting in self.if_gain_settings, "Invalid gain value!"
 		new_if_gain_enum = self.if_gain_settings[gain_setting]
-		print("Specified gain: %s, %s" % (gain_setting, new_if_gain_enum))
+		# print("Specified gain: %s, %s" % (gain_setting, new_if_gain_enum))
 		ret = self.dll.setIfGain(self.task_handle, new_if_gain_enum)
 		self.__check_ret(ret)
 
@@ -907,6 +908,7 @@ class AvmuInterface(object):
 
 	# Note: UNTESTED!
 	def configureTddSettings(self,
+				tddActive         = False,
 				tddEnabled        = False,
 				nullingEnabled    = False,
 				powerAmpState     = False,
@@ -925,7 +927,7 @@ class AvmuInterface(object):
 		# Signature: ErrCode setShaftEncoderFeature(TaskHandle t, const bool enable);
 		ret = self.dll.configureTddSettings(
 			self.task_handle,
-			True,
+			bool(tddActive),
 			bool(tddEnabled),
 			bool(nullingEnabled),
 			bool(powerAmpState),
@@ -980,8 +982,19 @@ class AvmuInterface(object):
 
 		'''
 		self.log.debug("getHardwareDetails call")
+
+		swbd_lut = {
+			0 : "NO_SWITCH_BOARD",
+			1 : "SIMPLE_4_PORT_SWITCH",
+			2 : "TDD_4_PORT_SWITCH",
+			3 : "SIMPLE_8_PORT_SWITCH",
+			4 : "S_PARAMETER_SWITCH",
+			5 : "MULTIPLE_RECEIVER_BOARD",
+		}
+
 		# Signature: HardwareDetails getHardwareDetails(TaskHandle t);
 		hardwareDetails = self.dll.getHardwareDetails(self.task_handle)
+		# print("Deets:", hardwareDetails.hardware_features)
 
 		ret = {
 			"minimum_frequency" : hardwareDetails.minimum_frequency,
@@ -990,16 +1003,20 @@ class AvmuInterface(object):
 			"serial_number"     : hardwareDetails.serial_number,
 
 			"band_boundaries"   : [hardwareDetails.band_boundaries[x]
-										for x in range(hardwareDetails.number_of_band_boundaries)],
-			"switch_board_type" : hardwareDetails.swbd_type,
-			"feature_flags"     : {
+										for x in range(hardwareDetails.number_of_band_boundaries)
+									],
 
-				"has_encoders"           : hardwareDetails.hardware_features.has_encoders,
-				"has_serial_port"        : hardwareDetails.hardware_features.has_serial_port,
-				"has_attenuators"        : hardwareDetails.hardware_features.has_attenuators,
-				"has_multiple_receivers" : hardwareDetails.hardware_features.has_multiple_receivers,
-				"has_scan_trigger_in"    : hardwareDetails.hardware_features.has_scan_trigger_in,
-				"has_scan_trigger_out"   : hardwareDetails.hardware_features.has_scan_trigger_out,
+			"switch_board_type" : swbd_lut[hardwareDetails.swbd_type],
+			"feature_flags"     : {
+				"has_encoders"                       : hardwareDetails.hardware_features.has_encoders,
+				"has_serial_port"                    : hardwareDetails.hardware_features.has_serial_port,
+				"has_attenuators"                    : hardwareDetails.hardware_features.has_attenuators,
+				"has_scan_trigger_in"                : hardwareDetails.hardware_features.has_scan_trigger_in,
+				"has_scan_trigger_out"               : hardwareDetails.hardware_features.has_scan_trigger_out,
+
+				"has_multiple_receiver_master_board" : hardwareDetails.hardware_features.has_multiple_receiver_master_board,
+				"has_multiple_receiver_slave_board"  : hardwareDetails.hardware_features.has_multiple_receiver_slave_board,
+				"has_multiple_receiver_txsw_board"   : hardwareDetails.hardware_features.has_multiple_receiver_txsw_board,
 
 			}
 		}
@@ -1334,10 +1351,22 @@ class AvmuInterface(object):
 
 	def __decodeEnabledReceivers(self, enable_bitmap):
 		self.log.debug("__decodeEnabledReceivers call")
+
+		# We remap the receiver numbers because the way they work now is confusing as hell.
+		rx_map = {
+				1: 0,
+				2: 1,
+				3: 2,
+				4: 3,
+				0: 4,
+			}
+
 		ret = []
 		for x in range(8):
 			if enable_bitmap & 1 << x:
-				ret.append(x)
+				ret.append(rx_map[x])
+
+		# print("Decoded enabled receivers: ", ret, "Bitmap: ", enable_bitmap)
 		return ret
 
 	def getEnabledReceivers(self):
@@ -1369,12 +1398,25 @@ class AvmuInterface(object):
 		Configure which of the receivers in the AVMU will return data.
 		'''
 		self.log.debug("setEnabledReceivers call")
-		valid_receivers = [0, 1, 2, 3]
+		valid_receivers = [0, 1, 2, 3, 4]
 		assert(all([tmp in valid_receivers for tmp in enable_list]))
 
+		rx_map = {
+			0 : 1,
+			1 : 2,
+			2 : 3,
+			3 : 4,
+			4 : 0,
+		}
+
 		mask = 0
+
+		# traceback.print_stack()
+		print("Should enable ", enable_list)
 		for item in enable_list:
-			mask |= 1 << item
+			mask |= 1 << rx_map[item]
+			print("Enabling receiver ", rx_map[item])
+		print("Bitmap ", mask)
 		self.__setEnabledReceivers(mask)
 
 	def __extract_sweep_data_int(self, tx_p_enum, rx_p_enum):
@@ -1412,7 +1454,7 @@ class AvmuInterface(object):
 
 		result = {}
 		for x in range(len(recs)):
-			result[recs[x]] =np.empty(point_num, dtype=np.complex128)
+			result[recs[x]] = np.empty(point_num, dtype=np.complex128)
 
 			result[recs[x]].real = receiver_arrs[x][0]
 			result[recs[x]].imag = receiver_arrs[x][1]
@@ -1559,7 +1601,7 @@ class AvmuInterface(object):
 				- ``tx_path``              Which port on the current AVMU is transmitting. For multi AVMU
 				  configurations, when the current AVMU is not transmitting, this will be TX_NONE.
 				- ``rx_path``              Which port on the current AVMU is receiving.
-				- ``receiver_channel``     Which receiver is the dataset for. At the moment, this
+				- ``receiver_chan``     Which receiver is the dataset for. At the moment, this
 				  is ALWAYS 0, as no multi-receiver AVMUs are available.
 
 
@@ -1583,20 +1625,21 @@ class AvmuInterface(object):
 		for who_is_transmitting, port_is_transmitting, tx_path, rx_path in self.measured_paths:
 			# print("Extracting path: ", tx_path, rx_path, transmitted)
 			rx_dict, meta = self.__extractSweepDataIntPath(tx_path, rx_path)
-			for receiver_channel, data in rx_dict.items():
-				ret.append((
-					{
-						'who_is_transmitting'  : who_is_transmitting,
-						'port_is_transmitting' : port_is_transmitting,
-						'tx_path'              : tx_path,
-						'rx_path'              : rx_path,
-						'receiver_channel'     : receiver_channel,
-					},
-					{
-						'data' : data,
-						'meta' : meta
-					}
-					))
+			ret.append((
+				{
+					'who_is_transmitting'  : who_is_transmitting,
+					'port_is_transmitting' : port_is_transmitting,
+					'tx_path'              : tx_path,
+					'rx_path'              : rx_path,
+				},
+				{
+
+					'data' : {
+							receiver_chan : data for receiver_chan, data in rx_dict.items()
+						},
+					'meta' : meta
+				}
+				))
 		return ret
 
 

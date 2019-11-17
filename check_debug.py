@@ -19,7 +19,7 @@ def update_docs():
 
 if __name__ == '__main__':
 	check_dll("avmu/avmudll_amd64_win.dll")
-	check_dll("avmu/libavmu_armv7l_linux.so")
-	check_dll("avmu/libavmu_amd64_linux.so")
-	check_dll("avmu/libavmu_amd64_macos.dylib")
+	# check_dll("avmu/libavmu_armv7l_linux.so")
+	# check_dll("avmu/libavmu_amd64_linux.so")
+	# check_dll("avmu/libavmu_amd64_macos.dylib")
 	update_docs()

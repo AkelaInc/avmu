@@ -235,12 +235,15 @@
 			bool has_serial_port;
 			/** Does the connected AVMU have a hardware attenuator */
 			bool has_attenuators;
-			/** Does the connected AVMU have multiple receivers */
-			bool has_multiple_receivers;
 			/** Does the connected AVMU have a scan-trigger input */
 			bool has_scan_trigger_in;
 			/** Does the connected AVMU have a scan-trigger output */
 			bool has_scan_trigger_out;
+
+			/** Does the connected AVMU have multiple receivers */
+			bool has_multiple_receiver_master_board;
+			bool has_multiple_receiver_slave_board;
+			bool has_multiple_receiver_txsw_board;
 
 		} hardware_features;
 
@@ -891,6 +894,7 @@
 	 TransmitPath AVMU_TX_PATH_5;
 	 TransmitPath AVMU_TX_PATH_6;
 	 TransmitPath AVMU_TX_PATH_7;
+	 TransmitPath AVMU_TX_PATH_8;
 	 TransmitPath AVMU_TX_PATH_NONE;
 
 	 ReceivePath AVMU_RX_PATH_0;

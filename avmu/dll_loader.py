@@ -101,6 +101,7 @@ def find_dll():
 	dll_lut = {
 			("Linux",   '32bit', 'ELF',       'armv7l') : "libavmu_armv7l_linux.so",
 			("Linux",   '64bit', 'ELF',       'x86_64') : "libavmu_amd64_linux.so",
+			('Linux',   '32bit', 'ELF',       'i686')   : "libavmu_i686_linux.so",
 			("Windows", '64bit', 'WindowsPE', 'AMD64' ) : "avmudll_amd64_win.dll",
 			('Darwin',  '64bit', '',          'x86_64') : "libavmu_amd64_macos.dylib",
 		}

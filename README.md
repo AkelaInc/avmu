@@ -78,6 +78,29 @@ from any location.
 
 ## Changes:
 
+0.1.1
+ - The `configureTddSettings()` call's signature has changed slightly. It now takes two 
+   different enable parameters. `tddActive` controls whether the TDD parameters get written
+   to the TDD board at all, whereas `tddEnabled` controls whether the TDD board enable bit 
+   is set within the parameters written when `tddActive` is set to true.
+0.1.0
+ - Breaking change: Preliminary support for new multiple-receiver hardware. This has 
+   resulted in changes to the structure returned by `extractAllPaths()` to allow multiple 
+   datasets for a single measured path (as multiple receivers allow simultaneous reception
+   from multiple inputs). As a result, the `data` member returned by `extractAllPaths()`
+   is now a dict of `rx_num` -> `np-array` values in all cases (even for single receiver
+   usage). 
+   This should only require a simple addition of one additional `member[0]` access for 
+   existing code, but it is a breaking change.
+ - Possible breaking change: `getHardwareDetails()` now returns switchboard type as
+   a string, rather then a integer. This was changed principally because the int
+   value corresponded to a undocumented enum value, and that was difficult to use.
+ - Certain error states in the native-code layer will no longer throw a uncaught
+   C++ exception, but will now correctly return a ERR_FEATURE_NOT_PRESENT error
+   code. Sorry about that!
+ - Windows/Linux builds removed as I don't have the build infrastructure at the moment (Akela closed!)
+   Complain on github if this is a problem, I can probably lash something up at home.
+
 0.0.12
  - Remove setup.py windows check (thanks https://github.com/AkelaInc/avmu/pull/1!)
 
