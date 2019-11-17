@@ -50,6 +50,7 @@
 <span class="sd">&#39;&#39;&#39;</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">dll_loader</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">avmu_exceptions</span>
@@ -714,7 +715,7 @@
 		<span class="c1"># ErrCode getIfGain(TaskHandle t, IfGain* new_gain);</span>
 		<span class="k">assert</span> <span class="n">gain_setting</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">if_gain_settings</span><span class="p">,</span> <span class="s2">&quot;Invalid gain value!&quot;</span>
 		<span class="n">new_if_gain_enum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">if_gain_settings</span><span class="p">[</span><span class="n">gain_setting</span><span class="p">]</span>
-		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Specified gain: </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">gain_setting</span><span class="p">,</span> <span class="n">new_if_gain_enum</span><span class="p">))</span>
+		<span class="c1"># print(&quot;Specified gain: %s, %s&quot; % (gain_setting, new_if_gain_enum))</span>
 		<span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dll</span><span class="o">.</span><span class="n">setIfGain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_handle</span><span class="p">,</span> <span class="n">new_if_gain_enum</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">__check_ret</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span></div>
 
@@ -942,6 +943,7 @@
 
 	<span class="c1"># Note: UNTESTED!</span>
 <div class="viewcode-block" id="AvmuInterface.configureTddSettings"><a class="viewcode-back" href="../../index.html#avmu.AvmuInterface.configureTddSettings">[docs]</a>	<span class="k">def</span> <span class="nf">configureTddSettings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+				<span class="n">tddActive</span>         <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 				<span class="n">tddEnabled</span>        <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 				<span class="n">nullingEnabled</span>    <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 				<span class="n">powerAmpState</span>     <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -960,7 +962,7 @@
 		<span class="c1"># Signature: ErrCode setShaftEncoderFeature(TaskHandle t, const bool enable);</span>
 		<span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dll</span><span class="o">.</span><span class="n">configureTddSettings</span><span class="p">(</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">task_handle</span><span class="p">,</span>
-			<span class="kc">True</span><span class="p">,</span>
+			<span class="nb">bool</span><span class="p">(</span><span class="n">tddActive</span><span class="p">),</span>
 			<span class="nb">bool</span><span class="p">(</span><span class="n">tddEnabled</span><span class="p">),</span>
 			<span class="nb">bool</span><span class="p">(</span><span class="n">nullingEnabled</span><span class="p">),</span>
 			<span class="nb">bool</span><span class="p">(</span><span class="n">powerAmpState</span><span class="p">),</span>
@@ -1015,8 +1017,19 @@
 
 <span class="sd">		&#39;&#39;&#39;</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;getHardwareDetails call&quot;</span><span class="p">)</span>
+
+		<span class="n">swbd_lut</span> <span class="o">=</span> <span class="p">{</span>
+			<span class="mi">0</span> <span class="p">:</span> <span class="s2">&quot;NO_SWITCH_BOARD&quot;</span><span class="p">,</span>
+			<span class="mi">1</span> <span class="p">:</span> <span class="s2">&quot;SIMPLE_4_PORT_SWITCH&quot;</span><span class="p">,</span>
+			<span class="mi">2</span> <span class="p">:</span> <span class="s2">&quot;TDD_4_PORT_SWITCH&quot;</span><span class="p">,</span>
+			<span class="mi">3</span> <span class="p">:</span> <span class="s2">&quot;SIMPLE_8_PORT_SWITCH&quot;</span><span class="p">,</span>
+			<span class="mi">4</span> <span class="p">:</span> <span class="s2">&quot;S_PARAMETER_SWITCH&quot;</span><span class="p">,</span>
+			<span class="mi">5</span> <span class="p">:</span> <span class="s2">&quot;MULTIPLE_RECEIVER_BOARD&quot;</span><span class="p">,</span>
+		<span class="p">}</span>
+
 		<span class="c1"># Signature: HardwareDetails getHardwareDetails(TaskHandle t);</span>
 		<span class="n">hardwareDetails</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dll</span><span class="o">.</span><span class="n">getHardwareDetails</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_handle</span><span class="p">)</span>
+		<span class="c1"># print(&quot;Deets:&quot;, hardwareDetails.hardware_features)</span>
 
 		<span class="n">ret</span> <span class="o">=</span> <span class="p">{</span>
 			<span class="s2">&quot;minimum_frequency&quot;</span> <span class="p">:</span> <span class="n">hardwareDetails</span><span class="o">.</span><span class="n">minimum_frequency</span><span class="p">,</span>
@@ -1025,16 +1038,20 @@
 			<span class="s2">&quot;serial_number&quot;</span>     <span class="p">:</span> <span class="n">hardwareDetails</span><span class="o">.</span><span class="n">serial_number</span><span class="p">,</span>
 
 			<span class="s2">&quot;band_boundaries&quot;</span>   <span class="p">:</span> <span class="p">[</span><span class="n">hardwareDetails</span><span class="o">.</span><span class="n">band_boundaries</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
-										<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hardwareDetails</span><span class="o">.</span><span class="n">number_of_band_boundaries</span><span class="p">)],</span>
-			<span class="s2">&quot;switch_board_type&quot;</span> <span class="p">:</span> <span class="n">hardwareDetails</span><span class="o">.</span><span class="n">swbd_type</span><span class="p">,</span>
-			<span class="s2">&quot;feature_flags&quot;</span>     <span class="p">:</span> <span class="p">{</span>
+										<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hardwareDetails</span><span class="o">.</span><span class="n">number_of_band_boundaries</span><span class="p">)</span>
+									<span class="p">],</span>
 
-				<span class="s2">&quot;has_encoders&quot;</span>           <span class="p">:</span> <span class="n">hardwareDetails</span><span class="o">.</span><span class="n">hardware_features</span><span class="o">.</span><span class="n">has_encoders</span><span class="p">,</span>
-				<span class="s2">&quot;has_serial_port&quot;</span>        <span class="p">:</span> <span class="n">hardwareDetails</span><span class="o">.</span><span class="n">hardware_features</span><span class="o">.</span><span class="n">has_serial_port</span><span class="p">,</span>
-				<span class="s2">&quot;has_attenuators&quot;</span>        <span class="p">:</span> <span class="n">hardwareDetails</span><span class="o">.</span><span class="n">hardware_features</span><span class="o">.</span><span class="n">has_attenuators</span><span class="p">,</span>
-				<span class="s2">&quot;has_multiple_receivers&quot;</span> <span class="p">:</span> <span class="n">hardwareDetails</span><span class="o">.</span><span class="n">hardware_features</span><span class="o">.</span><span class="n">has_multiple_receivers</span><span class="p">,</span>
-				<span class="s2">&quot;has_scan_trigger_in&quot;</span>    <span class="p">:</span> <span class="n">hardwareDetails</span><span class="o">.</span><span class="n">hardware_features</span><span class="o">.</span><span class="n">has_scan_trigger_in</span><span class="p">,</span>
-				<span class="s2">&quot;has_scan_trigger_out&quot;</span>   <span class="p">:</span> <span class="n">hardwareDetails</span><span class="o">.</span><span class="n">hardware_features</span><span class="o">.</span><span class="n">has_scan_trigger_out</span><span class="p">,</span>
+			<span class="s2">&quot;switch_board_type&quot;</span> <span class="p">:</span> <span class="n">swbd_lut</span><span class="p">[</span><span class="n">hardwareDetails</span><span class="o">.</span><span class="n">swbd_type</span><span class="p">],</span>
+			<span class="s2">&quot;feature_flags&quot;</span>     <span class="p">:</span> <span class="p">{</span>
+				<span class="s2">&quot;has_encoders&quot;</span>                       <span class="p">:</span> <span class="n">hardwareDetails</span><span class="o">.</span><span class="n">hardware_features</span><span class="o">.</span><span class="n">has_encoders</span><span class="p">,</span>
+				<span class="s2">&quot;has_serial_port&quot;</span>                    <span class="p">:</span> <span class="n">hardwareDetails</span><span class="o">.</span><span class="n">hardware_features</span><span class="o">.</span><span class="n">has_serial_port</span><span class="p">,</span>
+				<span class="s2">&quot;has_attenuators&quot;</span>                    <span class="p">:</span> <span class="n">hardwareDetails</span><span class="o">.</span><span class="n">hardware_features</span><span class="o">.</span><span class="n">has_attenuators</span><span class="p">,</span>
+				<span class="s2">&quot;has_scan_trigger_in&quot;</span>                <span class="p">:</span> <span class="n">hardwareDetails</span><span class="o">.</span><span class="n">hardware_features</span><span class="o">.</span><span class="n">has_scan_trigger_in</span><span class="p">,</span>
+				<span class="s2">&quot;has_scan_trigger_out&quot;</span>               <span class="p">:</span> <span class="n">hardwareDetails</span><span class="o">.</span><span class="n">hardware_features</span><span class="o">.</span><span class="n">has_scan_trigger_out</span><span class="p">,</span>
+
+				<span class="s2">&quot;has_multiple_receiver_master_board&quot;</span> <span class="p">:</span> <span class="n">hardwareDetails</span><span class="o">.</span><span class="n">hardware_features</span><span class="o">.</span><span class="n">has_multiple_receiver_master_board</span><span class="p">,</span>
+				<span class="s2">&quot;has_multiple_receiver_slave_board&quot;</span>  <span class="p">:</span> <span class="n">hardwareDetails</span><span class="o">.</span><span class="n">hardware_features</span><span class="o">.</span><span class="n">has_multiple_receiver_slave_board</span><span class="p">,</span>
+				<span class="s2">&quot;has_multiple_receiver_txsw_board&quot;</span>   <span class="p">:</span> <span class="n">hardwareDetails</span><span class="o">.</span><span class="n">hardware_features</span><span class="o">.</span><span class="n">has_multiple_receiver_txsw_board</span><span class="p">,</span>
 
 			<span class="p">}</span>
 		<span class="p">}</span>
@@ -1369,10 +1386,22 @@
 
 	<span class="k">def</span> <span class="nf">__decodeEnabledReceivers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enable_bitmap</span><span class="p">):</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;__decodeEnabledReceivers call&quot;</span><span class="p">)</span>
+
+		<span class="c1"># We remap the receiver numbers because the way they work now is confusing as hell.</span>
+		<span class="n">rx_map</span> <span class="o">=</span> <span class="p">{</span>
+				<span class="mi">1</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+				<span class="mi">2</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+				<span class="mi">3</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+				<span class="mi">4</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+				<span class="mi">0</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+			<span class="p">}</span>
+
 		<span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
 		<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
 			<span class="k">if</span> <span class="n">enable_bitmap</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">x</span><span class="p">:</span>
-				<span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+				<span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rx_map</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+
+		<span class="c1"># print(&quot;Decoded enabled receivers: &quot;, ret, &quot;Bitmap: &quot;, enable_bitmap)</span>
 		<span class="k">return</span> <span class="n">ret</span>
 
 <div class="viewcode-block" id="AvmuInterface.getEnabledReceivers"><a class="viewcode-back" href="../../index.html#avmu.AvmuInterface.getEnabledReceivers">[docs]</a>	<span class="k">def</span> <span class="nf">getEnabledReceivers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1404,12 +1433,25 @@
 <span class="sd">		Configure which of the receivers in the AVMU will return data.</span>
 <span class="sd">		&#39;&#39;&#39;</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;setEnabledReceivers call&quot;</span><span class="p">)</span>
-		<span class="n">valid_receivers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+		<span class="n">valid_receivers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
 		<span class="k">assert</span><span class="p">(</span><span class="nb">all</span><span class="p">([</span><span class="n">tmp</span> <span class="ow">in</span> <span class="n">valid_receivers</span> <span class="k">for</span> <span class="n">tmp</span> <span class="ow">in</span> <span class="n">enable_list</span><span class="p">]))</span>
 
+		<span class="n">rx_map</span> <span class="o">=</span> <span class="p">{</span>
+			<span class="mi">0</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+			<span class="mi">1</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+			<span class="mi">2</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+			<span class="mi">3</span> <span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+			<span class="mi">4</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+		<span class="p">}</span>
+
 		<span class="n">mask</span> <span class="o">=</span> <span class="mi">0</span>
+
+		<span class="c1"># traceback.print_stack()</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Should enable &quot;</span><span class="p">,</span> <span class="n">enable_list</span><span class="p">)</span>
 		<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">enable_list</span><span class="p">:</span>
-			<span class="n">mask</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">item</span>
+			<span class="n">mask</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">rx_map</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Enabling receiver &quot;</span><span class="p">,</span> <span class="n">rx_map</span><span class="p">[</span><span class="n">item</span><span class="p">])</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bitmap &quot;</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">__setEnabledReceivers</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span></div>
 
 	<span class="k">def</span> <span class="nf">__extract_sweep_data_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tx_p_enum</span><span class="p">,</span> <span class="n">rx_p_enum</span><span class="p">):</span>
@@ -1447,7 +1489,7 @@
 
 		<span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
 		<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">recs</span><span class="p">)):</span>
-			<span class="n">result</span><span class="p">[</span><span class="n">recs</span><span class="p">[</span><span class="n">x</span><span class="p">]]</span> <span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">point_num</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+			<span class="n">result</span><span class="p">[</span><span class="n">recs</span><span class="p">[</span><span class="n">x</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">point_num</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
 
 			<span class="n">result</span><span class="p">[</span><span class="n">recs</span><span class="p">[</span><span class="n">x</span><span class="p">]]</span><span class="o">.</span><span class="n">real</span> <span class="o">=</span> <span class="n">receiver_arrs</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 			<span class="n">result</span><span class="p">[</span><span class="n">recs</span><span class="p">[</span><span class="n">x</span><span class="p">]]</span><span class="o">.</span><span class="n">imag</span> <span class="o">=</span> <span class="n">receiver_arrs</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
@@ -1594,7 +1636,7 @@
 <span class="sd">				- ``tx_path``              Which port on the current AVMU is transmitting. For multi AVMU</span>
 <span class="sd">				  configurations, when the current AVMU is not transmitting, this will be TX_NONE.</span>
 <span class="sd">				- ``rx_path``              Which port on the current AVMU is receiving.</span>
-<span class="sd">				- ``receiver_channel``     Which receiver is the dataset for. At the moment, this</span>
+<span class="sd">				- ``receiver_chan``     Which receiver is the dataset for. At the moment, this</span>
 <span class="sd">				  is ALWAYS 0, as no multi-receiver AVMUs are available.</span>
 
 
@@ -1618,20 +1660,21 @@
 		<span class="k">for</span> <span class="n">who_is_transmitting</span><span class="p">,</span> <span class="n">port_is_transmitting</span><span class="p">,</span> <span class="n">tx_path</span><span class="p">,</span> <span class="n">rx_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">measured_paths</span><span class="p">:</span>
 			<span class="c1"># print(&quot;Extracting path: &quot;, tx_path, rx_path, transmitted)</span>
 			<span class="n">rx_dict</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extractSweepDataIntPath</span><span class="p">(</span><span class="n">tx_path</span><span class="p">,</span> <span class="n">rx_path</span><span class="p">)</span>
-			<span class="k">for</span> <span class="n">receiver_channel</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">rx_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-				<span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">((</span>
-					<span class="p">{</span>
-						<span class="s1">&#39;who_is_transmitting&#39;</span>  <span class="p">:</span> <span class="n">who_is_transmitting</span><span class="p">,</span>
-						<span class="s1">&#39;port_is_transmitting&#39;</span> <span class="p">:</span> <span class="n">port_is_transmitting</span><span class="p">,</span>
-						<span class="s1">&#39;tx_path&#39;</span>              <span class="p">:</span> <span class="n">tx_path</span><span class="p">,</span>
-						<span class="s1">&#39;rx_path&#39;</span>              <span class="p">:</span> <span class="n">rx_path</span><span class="p">,</span>
-						<span class="s1">&#39;receiver_channel&#39;</span>     <span class="p">:</span> <span class="n">receiver_channel</span><span class="p">,</span>
-					<span class="p">},</span>
-					<span class="p">{</span>
-						<span class="s1">&#39;data&#39;</span> <span class="p">:</span> <span class="n">data</span><span class="p">,</span>
-						<span class="s1">&#39;meta&#39;</span> <span class="p">:</span> <span class="n">meta</span>
-					<span class="p">}</span>
-					<span class="p">))</span>
+			<span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">((</span>
+				<span class="p">{</span>
+					<span class="s1">&#39;who_is_transmitting&#39;</span>  <span class="p">:</span> <span class="n">who_is_transmitting</span><span class="p">,</span>
+					<span class="s1">&#39;port_is_transmitting&#39;</span> <span class="p">:</span> <span class="n">port_is_transmitting</span><span class="p">,</span>
+					<span class="s1">&#39;tx_path&#39;</span>              <span class="p">:</span> <span class="n">tx_path</span><span class="p">,</span>
+					<span class="s1">&#39;rx_path&#39;</span>              <span class="p">:</span> <span class="n">rx_path</span><span class="p">,</span>
+				<span class="p">},</span>
+				<span class="p">{</span>
+
+					<span class="s1">&#39;data&#39;</span> <span class="p">:</span> <span class="p">{</span>
+							<span class="n">receiver_chan</span> <span class="p">:</span> <span class="n">data</span> <span class="k">for</span> <span class="n">receiver_chan</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">rx_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+						<span class="p">},</span>
+					<span class="s1">&#39;meta&#39;</span> <span class="p">:</span> <span class="n">meta</span>
+				<span class="p">}</span>
+				<span class="p">))</span>
 		<span class="k">return</span> <span class="n">ret</span></div>
 
 

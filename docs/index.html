@@ -68,11 +68,11 @@ measured when data is actually acquired.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>tx_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Transmitting port of the path to add. Note that
+<li><strong>tx_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Transmitting port of the path to add. Note that
 this can very well be TX_NONE, if your application is
 using multiple AVMUs, and one of the other AVMUs is
 the one actively transmitting.</li>
-<li><strong>rx_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – RX Path for the combo. This can be RX_NONE if there
+<li><strong>rx_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – RX Path for the combo. This can be RX_NONE if there
 is no need for the associated rx data. Note that RX_NONE
 will still return data (as the transmitter will still
 need to do the associated frequency stepping), but the
@@ -142,7 +142,7 @@ generated.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>freqs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – array of frequencies to sample, in MHz</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>freqs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – array of frequencies to sample, in MHz</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Nothing</p>
@@ -182,7 +182,7 @@ If no rate has yet been set, this function returns <code class="docutils literal
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>hop_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The new hop rate.</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>hop_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The new hop rate.</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Nothing</p>
@@ -251,7 +251,7 @@ On success, the Task’s state will be <code class="docutils literal notranslate
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State`if</span> <span class="pre">the</span> <span class="pre">Task</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">``TASK_UNINITIALIZED`</span></code> or <code class="docutils literal notranslate"><span class="pre">TASK_STOPPED</span></code> state</td>
 </tr>
@@ -298,7 +298,7 @@ of the RF pipeline.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>gain_setting</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>) </em><em>A value in the IfGain Enum</em><em> (</em><em>e.g. &quot;AVMU_GAIN_*&quot;</em>) – </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>gain_setting</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>) </em><em>A value in the IfGain Enum</em><em> (</em><em>e.g. &quot;AVMU_GAIN_*&quot;</em>) – </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a> if the task is either UNINITIALIZED or STOPPED.</td>
 </tr>
@@ -328,7 +328,7 @@ of the RF pipeline.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>insert_pad</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – Whether the pad is inserted.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>insert_pad</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – Whether the pad is inserted.</td>
 </tr>
 </tbody>
 </table>
@@ -381,9 +381,9 @@ sweep. This is a valid operating mode.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>startF_mhz</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – </li>
-<li><strong>stopF_mhz</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – </li>
-<li><strong>N</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – </li>
+<li><strong>startF_mhz</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – </li>
+<li><strong>stopF_mhz</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – </li>
+<li><strong>N</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – </li>
 </ul>
 </td>
 </tr>
@@ -425,7 +425,7 @@ immediately if there is no data in the OS receive buffer.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>timeout_ms</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>timeout_ms</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Nothing</td>
 </tr>
@@ -456,8 +456,8 @@ immediately if there is no data in the OS receive buffer.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>enable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – </li>
-<li><strong>buffer_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – </li>
+<li><strong>enable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – </li>
+<li><strong>buffer_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – </li>
 </ul>
 </td>
 </tr>
@@ -492,8 +492,8 @@ and optionally reset the cumulative encoder counter.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>enable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – </li>
-<li><strong>resetOnStart</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – </li>
+<li><strong>enable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – </li>
+<li><strong>resetOnStart</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – </li>
 </ul>
 </td>
 </tr>
@@ -506,7 +506,7 @@ and optionally reset the cumulative encoder counter.</p>
 
 <dl class="method">
 <dt id="avmu.AvmuInterface.configureTddSettings">
-<code class="descname">configureTddSettings</code><span class="sig-paren">(</span><em>tddEnabled=False</em>, <em>nullingEnabled=False</em>, <em>powerAmpState=False</em>, <em>slave=False</em>, <em>attenuatorEnabled=False</em>, <em>lnaEnabled=False</em>, <em>attenuatorValue=0</em>, <em>tx=0</em>, <em>tx_to_rx1=0</em>, <em>rx1=0</em>, <em>rx1_to_rx2=0</em>, <em>rx2=0</em>, <em>rx2_to_tx=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.configureTddSettings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.configureTddSettings" title="Permalink to this definition">¶</a></dt>
+<code class="descname">configureTddSettings</code><span class="sig-paren">(</span><em>tddActive=False</em>, <em>tddEnabled=False</em>, <em>nullingEnabled=False</em>, <em>powerAmpState=False</em>, <em>slave=False</em>, <em>attenuatorEnabled=False</em>, <em>lnaEnabled=False</em>, <em>attenuatorValue=0</em>, <em>tx=0</em>, <em>tx_to_rx1=0</em>, <em>rx1=0</em>, <em>rx1_to_rx2=0</em>, <em>rx2=0</em>, <em>rx2_to_tx=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/avmu/avmu_library.html#AvmuInterface.configureTddSettings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.AvmuInterface.configureTddSettings" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -556,7 +556,7 @@ waits for a reply for the length of time specified by getTimeout() before giving
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tries</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The call will block for at most <code class="docutils literal notranslate"><span class="pre">tries</span></code> * <code class="docutils literal notranslate"><span class="pre">timeout</span></code> milliseconds.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tries</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The call will block for at most <code class="docutils literal notranslate"><span class="pre">tries</span></code> * <code class="docutils literal notranslate"><span class="pre">timeout</span></code> milliseconds.
 Note that certain states can cause the hardware to be unable to
 respond to the first ping, so tries &gt; 1 is generally recommended.</p>
 </td>
@@ -603,9 +603,9 @@ simply adjusted to exactly generateable values.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>startF</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – </li>
-<li><strong>endF</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – </li>
-<li><strong>npts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – </li>
+<li><strong>startF</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – </li>
+<li><strong>endF</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – </li>
+<li><strong>npts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – </li>
 </ul>
 </td>
 </tr>
@@ -633,7 +633,7 @@ of the hardware not read from the AVMU until initialized.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>target_freq</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>target_freq</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Adjusted <cite>target_freq</cite> Frequency value as a float<blockquote>
 <div><a class="reference internal" href="#avmu.avmu_exceptions.Avmu_Exception_Wrong_State" title="avmu.avmu_exceptions.Avmu_Exception_Wrong_State"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State</span></code></a> if the Task is not in the TASK_STOPPED state
@@ -849,8 +849,8 @@ of the same path within the overall AVMU acqusision frame.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>tx_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – TX port of the path to extract.</li>
-<li><strong>rx_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – RX port of the path to extract.</li>
+<li><strong>tx_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – TX port of the path to extract.</li>
+<li><strong>rx_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – RX port of the path to extract.</li>
 </ul>
 </td>
 </tr>
@@ -927,7 +927,7 @@ only relevant in a multi-AVMU context. Single-AVMU setups can ignore it.</li>
 <li><code class="docutils literal notranslate"><span class="pre">tx_path</span></code>              Which port on the current AVMU is transmitting. For multi AVMU
 configurations, when the current AVMU is not transmitting, this will be TX_NONE.</li>
 <li><code class="docutils literal notranslate"><span class="pre">rx_path</span></code>              Which port on the current AVMU is receiving.</li>
-<li><code class="docutils literal notranslate"><span class="pre">receiver_channel</span></code>     Which receiver is the dataset for. At the moment, this
+<li><code class="docutils literal notranslate"><span class="pre">receiver_chan</span></code>     Which receiver is the dataset for. At the moment, this
 is ALWAYS 0, as no multi-receiver AVMUs are available.</li>
 </ul>
 <p>In the general single-unit case, you can ignore all the keys other then <code class="docutils literal notranslate"><span class="pre">tx_path</span></code> and <code class="docutils literal notranslate"><span class="pre">rx_path</span></code>.</p>
@@ -970,7 +970,7 @@ their internal communication object.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sync_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sync_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">Avmu_Exception_Wrong_State`if</span> <span class="pre">the</span> <span class="pre">Task</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">``TASK_UNINITIALIZED`</span></code> or <code class="docutils literal notranslate"><span class="pre">TASK_STOPPED</span></code> state</td>
 </tr>
@@ -1012,8 +1012,8 @@ they are somewhat pointless).</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>start_freq</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>MHz</em>) – </li>
-<li><strong>stop_freq</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>MHz</em><em>) </em><em>- End of the exclusion band</em><em> (</em><em>MUST be larger then start_freq</em>) – </li>
+<li><strong>start_freq</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>, </em><em>MHz</em>) – </li>
+<li><strong>stop_freq</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>, </em><em>MHz</em><em>) </em><em>- End of the exclusion band</em><em> (</em><em>MUST be larger then start_freq</em>) – </li>
 </ul>
 </td>
 </tr>
@@ -1114,7 +1114,7 @@ star-imported into the main avmu module.</p>
 <dl class="exception">
 <dt id="avmu.avmu_exceptions.Avmu_Exception">
 <em class="property">exception </em><code class="descclassname">avmu.avmu_exceptions.</code><code class="descname">Avmu_Exception</code><a class="reference internal" href="_modules/avmu/avmu_exceptions.html#Avmu_Exception"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#avmu.avmu_exceptions.Avmu_Exception" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
 <p>Base exception class that all library exceptions inherit from. This
 can be used to easily catch all exceptions that are specifically
 thrown by the <code class="docutils literal notranslate"><span class="pre">avmu</span></code> library.</p>
